@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{editlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>系统审计设置</title>
+    <link rel="stylesheet" th:href="@{/css/Edit.css}"/>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#btnDelete").click(function () {
+                $.ajax({
+                    type: "Post",
+                    url: "/system/sysAuditSetting/deleteAuditLog",
+                    success: function (data) {
+                        var msg = "没有冗余数据可删除！";
+                        if (data.count !== 0) {
+                            msg = '成功删除' + data.count + "数据";
+                        }
+                        top.layer.alert(msg,
+                            {
+                                closeBtn: 0
+                            },
+                            function () {
+                                top.layer.closeAll();
+                            });
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        $("#errorMsg").show();
+                        $("#errorMsg").text("删除出错,稍后重试！");
+                    }
+                });
+            });
+        });
+    </script>
+
+</head>
+<body>
+<div class="main-container-inner" layout:fragment="edit-content">
+    <form id="editForm">
+        <div class="widget-box">
+            <div class="tabbable">
+                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                    <li class="active"><a data-toggle="tab" href="#home1">系统审计设置</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="home1" class="tab-pane  in active">
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4>基础设置</h4>
+                                <div class="widget-toolbar" style="line-height: 20px;">
+                                    <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <table>
+                                        <tr>
+                                            <th class="th">
+                                                审计日志保存时长(天)
+                                            </th>
+                                            <td class="td">
+                                                <input type="number" name="logValidDurationTime"
+                                                       th:value=${entity.logValidDurationTime} maxlength="20"/>
+                                            </td>
+                                            <th class="th">
+                                                审计日志数量上限（条）：
+                                            </th>
+                                            <td class="td">
+                                                <input type="number" name="logMaxCount"
+                                                       th:value=${entity.logMaxCount} maxlength="20"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                        <tr>
+                                            <th class="th">
+                                                预警邮箱列表：
+                                            </th>
+                                            <td class="td" colspan="3">
+                                                <textarea style="width: 400px;height: 200px!important; overflow: auto;"
+                                                          cols="100"
+                                                          rows="30" id="ipList" placeholder="多个邮箱用;分割"
+                                                          name="emailList"
+                                                          th:text=${entity.emailList}></textarea>
+                                            </td>
+                                        </tr>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="display: inline-block ; margin: 10px auto;">
+                                    <input id="hidId" name="id" th:value="${entity.id}" type="hidden"/>
+                                    <button id="btnSave" type="button" class="btn btn-primary btn-sm"><i class="icon-save bigger-110"></i>保存
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4>审计日志操作</h4>
+                                <div class="widget-toolbar" style="line-height: 20px;">
+                                    <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <button id="btnDelete" type="button" class="btn btn-primary btn-sm" style="float: left"><i
+                                                        class="icon-trash bigger-110"></i>删除冗余日志
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

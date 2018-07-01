@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script>
+        if (window.parent.length != 0) {
+            window.parent.location = "/login";
+        }
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>电网规划项目辅助决策系统开发-登录页面</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}"/>
+    <!--[if IE 7]>
+    <link rel="stylesheet" th:href="@{/css/font-awesome-ie7.min.css}"/>
+    <![endif]-->
+    <link rel="stylesheet" th:href="@{/css/ace.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/ace-rtl.min.css}"/>
+    <!--<link rel="stylesheet" th:href="@{/js/lib/layer/theme/default/layer.css}">-->
+</head>
+<body>
+<div class="main">
+    <div class="denglu">
+        <div class="logo" style="height: 150px;">
+            <img th:src="@{/images/index_logo.png}" id="logo"/>
+            电网规划项目辅助决策系统
+        </div>
+        <div class="clearfix" style="width: 805px; margin: 50px auto">
+            <div class="text clearfix" style="font-size: 13px;">
+                <strong>使用说明：</strong><br/>
+                1. 本站采用HTML5绘制，请使用谷歌、火狐、淘宝等浏览器<br/> 2. 如果使用IE内核或IE浏览器访问，请升级到IE9及以上版本方可显示正常<br/>
+                3. 为了正常访问本系统，请"关闭弹出窗口阻止程序"<br/> 4. 加入可信认站点：把本系统加入"可信认站点"，可以减少弹出的询问窗口<br/> <a style="font-size: 10pt;
+                        color: Blue" href="Google.zip">谷歌浏览器安装包下载</a>
+            </div>
+            <div class="dlk clearfix">
+                <form id="loginForm" th:action="@{/login}" method="POST">
+                    <table width="292" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td height="70" colspan="3">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" height="20px">
+                                <div class="clearfix" id="divErrorMsg" style="color:red; display: none">
+                                    <i class="icon-remove-sign"></i>
+                                    <span id="spError"
+                                          th:text="${session.SPRING_SECURITY_LAST_EXCEPTION != null}?${session.SPRING_SECURITY_LAST_EXCEPTION.message}:''"></span>
+
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="65" style="font-size: 14px;">
+                                用户名
+                            </td>
+                            <td colspan="2">
+                                <input type="text" name="username"  id="txtAccount" autocomplete="off"
+                                       placeholder="请输入用户名"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="25" colspan="3">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                密码
+                            </td>
+                            <td colspan="2">
+                                <input name="password"  type="password" id="txtPwd" autocomplete="off"
+                                       placeholder="请输入密码"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="25" colspan="3">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>验证码</td>
+                            <td colspan="2">
+                                <input type="text"  style="width: 70px" name="captcha" />
+                                <img style="width: 70px; height: 32px"  onclick="javascript:this.src=this.src+'?'"
+                                     alt="看不清?直接点击更换图片!" align="middle"  src="/captchImg" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="25" colspan="3">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <!--<label class="inline">-->
+                                    <!--<input type="checkbox" class="ace ckJiZhu" checked="checked"-->
+                                           <!--id="remember-me" name="remember-me"/>-->
+                                    <!--<span class="lbl">记住账户</span>-->
+                                <!--</label>-->
+                                <input id="sign" type="hidden" name="sign">
+                                <button type="reset" class="pull-right btn btn-sm " id="btnCanle"
+                                        style="margin-left: 10px;">
+                                    <i class="icon-undo "></i>取消
+                                </button>
+                                <button type="button" id="btnLogin" class="pull-right btn btn-sm btn-primary">
+                                    <i class="icon-key"></i>登录
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <span style="margin-right: 20px;">技术支持:成都恒华电力科技咨询有限责任公司</span><span style="margin-left: 20px;">联系电话:028-85257820/85257852</span>
+    </div>
+</div>
+</body>
+<script th:src="@{/js/jquery-2.0.3.min.js}" type="text/javascript"></script>
+<!--[if IE]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script  th:src='@{/js/jquery-1.10.2.min.js}'>" + "<" + "/script>");
+</script>
+<![endif]-->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/lib/layer/layer.js}" type="text/javascript"></script>
+<script th:src="@{/js/security.js}"></script>
+<script th:src="@{/js/md5.js}"></script>
+<script  th:inline="javascript">
+    /*<![CDATA[*/
+    $(function () {
+        $("input[name='password']").attr("type", "text").val("").on("focus", function () {
+            $(this).attr("type", "password");
+        });
+
+        $(window).resize(function () {
+            setDenluHgeight();
+        });
+
+        var setDenluHgeight = function () {
+            var height = 668;
+            if (document.documentElement.clientHeight > 668) {
+                height = document.documentElement.clientHeight - 150;
+            }
+            $(".denglu").height(height);
+        }
+        setDenluHgeight();
+
+        if ($("#spError").html() !== "") {
+            $("#divErrorMsg").show();
+        }
+    });
+
+    $("#btnLogin").click(function () {
+        if (checkVaule()) {
+            var modulus = [[${modulus}]];
+            var exponent = [[${exponent}]];
+            //通过模和公钥参数获取公钥
+            var key = new RSAUtils.getKeyPair(exponent, "", modulus);
+            //颠倒密码的顺序，要不然后解密后会发现密码顺序是反的
+            var password = $("input[name='password']").val();
+            var username = $("input[name='username']").val();
+            var captcha = $("input[name='captcha']").val();
+            var signStr =captcha+username+password+"kylin";
+            $("#sign").val($.md5(signStr));
+
+            //var reversedPwd = password.split("").reverse().join("");
+            //对密码进行加密传输
+            var encrypedPwd = RSAUtils.encryptedString(key,password);
+            $("input[name='password']").val(encrypedPwd);
+            password = $("input[name='password']").val();
+            $("#loginForm").submit();
+            $("input[name='password']").attr("type", "text").val("");
+        }
+    });
+
+    function checkVaule() {
+        var error = "";
+        if ($("#txtAccount").val() === "" && $("#txtPwd").val() === "") {
+            error = "请填写账号密码";
+        }
+        else if ($("#txtAccount").val() === "") {
+            error = "请填写账号";
+        }
+        else if ($("#txtPwd").val() === "") {
+            error = "请填写密码";
+        }
+
+        if (error !== "") {
+            $("#spError").html(error);
+            $("#divErrorMsg").show();
+            return false;
+        }
+
+        return true;
+    }
+
+    document.onkeydown = function (event) {
+        var ev = document.all ? window.event : event;
+        if (ev.keyCode === 13) {
+
+            return false;
+        }
+        return true;
+    };
+    /*]]>*/
+</script>
+</html>

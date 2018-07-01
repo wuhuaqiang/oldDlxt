@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{editlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>系统设置</title>
+    <link rel="stylesheet" th:href="@{/css/Edit.css}"/>
+    <script th:src="@{/js/security.js}"></script>
+    <script th:inline="javascript">
+        var isSuccess = false;
+        /*<![CDATA[*/
+        $(function () {
+            var hiddenErrorMsg = function () {
+                if( $("#errorMsg")!=="undefind")
+                {
+                    $("#errorMsg").hide();
+                    $(".errorMsgSpan").html("");
+                    $('.errorMsgSpan').tooltip('destroy');
+                }
+            }
+
+            var showErrorMsg = function (msg) {
+                if( $("#errorMsg").length>0)
+                {
+                    $("#errorMsg").show();
+                    $("#errorMsg").text(msg);
+                }
+                else
+                {
+                    layer.alert(msg);
+                }
+            }
+
+            var baseUrl = [[${autoBuilderParam.mapUrl}]];
+            var id = $("#hidId").val();
+            var url = baseUrl+(id!==""?"/saveModify":"/saveAdd");
+            $("#btnSave1").click(function () {
+                hiddenErrorMsg();
+
+                var modulus = [[${modulus}]];
+                var exponent = [[${exponent}]];
+                //通过模和公钥参数获取公钥
+                var key = new RSAUtils.getKeyPair(exponent, "", modulus);
+                var password = $("input[name='mailPassword']").val();
+                var encrypedPassword = RSAUtils.encryptedString(key,password);
+                $("input[name='mailPassword']").val(encrypedPassword);
+                $.ajax({
+                    type: "Post",
+                    url: url,
+                    data: $("#editForm").serialize(),
+                    success: function (data) {
+                        if (data.success) {
+                            top.layer.alert('保存成功！',
+                                {
+                                    closeBtn: 0
+                                },
+                                function () {
+                                    top.layer.closeAll();
+                                });
+                        } else {
+                            if (data.message !== "") {
+                                showErrorMsg(data.message)
+                            }
+
+                            if (data.fieldErrors !== null) {
+                                $.each(data.fieldErrors, function (idx, obj) {
+                                    var fieldName = obj.field;
+                                    $("[name=" + fieldName + "]").parent().find('>span:last').html(obj.defaultMessage);
+                                });
+                                $("[limit]").limit();
+                                $(".errorMsgSpan").tooltip({container: 'body'});
+                            }
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        if(XMLHttpRequest.status===401)
+                        {
+                            top.layer.alert('登录超时或无权执行该操作，请重新登录！',
+                                {
+                                    closeBtn: 0
+                                },
+                                function () {
+                                    top.layer.closeAll();
+                                    window.parent.location = "/login";
+                                });
+                        }
+                        else {
+                            showErrorMsg("保存出错,稍后重试！")
+                        }
+                    }
+                });
+
+                $("input[name='mailPassword']").val(password);
+            });
+        });
+        /*]]>*/
+    </script>
+</head>
+<body>
+<div class="main-container-inner" layout:fragment="edit-content">
+    <form id="editForm">
+        <div class="widget-box">
+            <div class="tabbable">
+                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                    <li class="active"><a data-toggle="tab" href="#home1">基础设置</a></li>
+                    <li><a data-toggle="tab" href="#home2">系统访问设置</a></li>
+                    <li><a data-toggle="tab" href="#home3">系统邮箱设置</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="home1" class="tab-pane  in active">
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4>账号密码设置</h4>
+                                <div class="widget-toolbar" style="line-height: 20px;">
+                                    <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <table>
+                                        <tr>
+                                            <th class="th">
+                                                账号有效时长(天)
+                                            </th>
+                                            <td class="td">
+                                                <input type="number" name="accountValidDurationTime"
+                                                       th:value=${entity.accountValidDurationTime} maxlength="20"/>
+                                            </td>
+                                            <th class="th">
+                                                密码有效时长（天）：
+                                            </th>
+                                            <td class="td">
+                                                <input type="number" name="pwdValidDurationTime"
+                                                       th:value=${entity.pwdValidDurationTime} maxlength="20"/>
+                                            </td>
+                                            <th class="th">
+                                                临时账号有效时长（天）：
+                                            </th>
+                                            <td class="td">
+                                                <input type="number" name="temporaryAccountDurationTime"
+                                                       th:value=${entity.temporaryAccountDurationTime} maxlength="20"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4>会话管理设置</h4>
+                                <div class="widget-toolbar" style="line-height: 20px;">
+                                    <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <table>
+                                        <tr>
+                                            <th class="th">
+                                                会话保持时间（分钟）：
+                                            </th>
+                                            <td class="td">
+                                                <input type="number" name="sessionKeepTime"
+                                                       th:value=${entity.sessionKeepTime} maxlength="20"/>
+                                            </td>
+                                            <th class="th">
+                                                最大会话数：
+                                            </th>
+                                            <td class="td">
+                                                <input type="number" name="maxSessionCount"
+                                                       th:value=${entity.maxSessionCount} maxlength="20"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4>用户登录设置</h4>
+                                <div class="widget-toolbar" style="line-height: 20px;">
+                                    <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <table>
+                                        <tr>
+                                            <th class="th">
+                                                登录失败记录时间(分钟)：
+                                            </th>
+                                            <td class="td">
+                                                <input type="number" name="loginFailedTimeInterval"
+                                                       th:value=${entity.loginFailedTimeInterval} maxlength="20"/>
+                                            </td>
+                                            <th class="th">
+                                                允许登录失败次数：
+                                            </th>
+                                            <td class="td">
+                                                <input type="number" name="maxLoginFailedTimes"
+                                                       th:value=${entity.maxLoginFailedTimes} maxlength="20"/>
+                                            </td>
+                                            <th class="th">
+                                                登录失败锁定时长(分钟)：
+                                            </th>
+                                            <td class="td">
+                                                <input type="number" name="pwdLockDuration"
+                                                       th:value=${entity.pwdLockDuration} maxlength="20"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="home2" class="tab-pane">
+                    <div class="widget-box">
+                        <div class="widget-header">
+                            <h4>访问时间设置</h4>
+                            <div class="widget-toolbar" style="line-height: 20px;">
+                                <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <table>
+                                    <tr>
+                                        <th class="th">
+                                            访问时间：
+                                        </th>
+                                        <td class="td">
+                                            <input id="accessBeginTime" type="text" style="width: 180px;"
+                                                   class="Wdate" th:value="${entity.accessBeginTime}"
+                                                   onclick="WdatePicker({ isShowClear: true, dateFmt: 'HH:mm:ss' })"/>
+                                            到
+                                            <input id="accessEndTime" type="text" style="width: 180px;height: 28px !important;"
+                                                   class="Wdate" th:value="${entity.accessEndTime}"
+                                                   onclick="WdatePicker({ isShowClear: true, dateFmt: 'HH:mm:ss', minDate: '#F{$dp.$D(\'accessBeginTime\')}' })"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-box">
+                        <div class="widget-header">
+                            <h4>访问IP设置</h4>
+                            <div class="widget-toolbar" style="line-height: 20px;">
+                                <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <table>
+                                    <tr>
+                                        <th class="th">
+                                            限制方式：
+                                        </th>
+                                        <td class="td">
+                                            <label for="blacklist" style="width: auto">黑名单</label>
+                                            <input type="radio" th:checked=${entity.restrictType==0}  name="restrictType" id="blacklist" value="0"/>
+
+                                            <label for="whitelist" style="height: 28px;">白名单</label>
+                                            <input type="radio" th:checked=${entity.restrictType==1}  name="restrictType" id="whitelist" value="1"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="th">
+                                            Ip列表：
+                                        </th>
+                                        <td class="td">
+                                                <textarea style="width: 600px;height: 400px!important; overflow: auto;" cols="100"
+                                                          rows="30" id="ipList" placeholder="多个ip用;分割" th:text=${entity.ipList} ></textarea>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div id="home3" class="tab-pane">
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4>系统邮箱设置</h4>
+                                <div class="widget-toolbar" style="line-height: 20px;">
+                                    <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <table>
+                                        <tr>
+                                            <th class="th">
+                                                邮件服务器：
+                                            </th>
+                                            <td class="td">
+                                                <input type="text" name="mailHost" th:value="${entity.mailHost}" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th">
+                                                用户名：
+                                            </th>
+                                            <td class="td">
+                                                <input type="text" name="mailAccount" th:value="${entity.mailAccount}" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th">
+                                                密码：
+                                            </th>
+                                            <td class="td">
+                                                <input type="password" name="mailPassword" th:value="${entity.mailPassword}" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display: inline-block ; margin: 10px auto;">
+            <input id="hidId" name="id" th:value="${entity.id}" type="hidden"/>
+            <button id="btnSave1" type="button" class="btn btn-primary btn-sm"><i class="icon-save bigger-110"></i>保存
+            </button>
+            &nbsp; &nbsp; &nbsp;
+            <button id="btnCancel" type="button" class="btn  btn-sm"><i class="icon-undo bigger-110"></i>取消</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

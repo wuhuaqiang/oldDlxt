@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{editlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>单位管理</title>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        $(function () {
+            $(".chosen-select").chosen();
+
+            $("#btnCancel").click(function () {
+                top.layer.closeAll();
+            });
+
+            $("#btnSave1").click(function () {
+                $("#errorMsg").hide();
+                $(".errorMsgSpan").html("");
+                $("select[name=unitId]").attr("disabled",false);
+                $("select[name=status]").attr("disabled",false);
+                var data = $("#editForm").serialize();
+                $("select[name=unitId]").attr("disabled",true);
+                $("select[name=status]").attr("disabled",true);
+                $.ajax({
+                type: "Post",
+                url: "/system/user/userInfo/save",
+                data: data,
+                success: function (data) {
+                    if (data.success) {
+                        top.layer.alert('保存成功！',
+                            {
+                                closeBtn: 0
+                            },
+                            function () {
+                                top.layer.closeAll();
+                            });
+                    } else {
+                        if (data.message !== "") {
+                            $("#errorMsg").show();
+                            $("#errorMsg").text(data.message);
+                        }
+
+                        if (data.fieldErrors !== null) {
+                            $.each(data.fieldErrors, function (idx, obj) {
+                                var fieldName = obj.field;
+                                $("[name=" + fieldName + "]").parent().find('>span:last').html(obj.defaultMessage);
+                            });
+                            $("[limit]").limit();
+                            $(".errorMsgSpan").tooltip({container: 'body'});
+                        }
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $("#errorMsg").show();
+                    $("#errorMsg").text("保存出错,稍后重试！");
+                }
+            });
+        });
+        });
+        /*]]>*/
+    </script>
+</head>
+<body>
+<div class="main-container-inner" layout:fragment="edit-content">
+    <form id="editForm">
+        <div class="widget-body">
+            <div class="widget-main">
+                <div style="text-align: left; padding-left: 12px" >
+                    <span class="icon-warning-sign red" id="errorMsg" style="display:none"></span>
+                </div>
+                <table border="1" width="100%">
+                    <tr>
+                        <td class="th">
+                            用户姓名：
+                        </td>
+                        <td class="td">
+                            <input type="text" name="name" th:value="${entity.name}"/>
+                            <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th">
+                            单位名称：
+                        </td>
+                        <td class="td">
+                            <select name="unitId" class="chosen-select" style="width: 180px" disabled="false">
+                                <option th:each="unit:${unites}" th:value="${unit.key}"
+                                        th:text="${unit.value}" th:selected="${unit.key==entity.unitId}"></option>
+                            </select>
+                            <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th">
+                            登录账号：
+                        </td>
+                        <td class="td">
+                            <input type="text" name="account" th:value="${entity.account}"  maxlength="20" readonly />
+                            <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th">
+                            用户状态：
+                        </td>
+                        <td class="td">
+                            <select  name="status" class="chosen-select" style="width:90px;" disabled="false">
+                                <option th:selected="${entity.status=='有效'}" value="有效">有效</option>
+                                <option th:selected="${entity.status=='无效'}" value="无效">无效</option>
+                            </select>
+                            <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th">
+                            性别：
+                        </td>
+                        <td class="td">
+                            <select  name="sex" class="chosen-select" style="width:50px">
+                                <option th:selected="${entity.status=='男'}" value="男">男</option>
+                                <option th:selected="${entity.status=='女'}" value="女">女</option>
+                            </select>
+                            <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th">
+                            手机：
+                        </td>
+                        <td class="td">
+                            <input type="text" name="cellphoneNumber" th:value=${entity.cellphoneNumber} maxlength="20"/>
+                            <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th">
+                            座机：
+                        </td>
+                        <td class="td">
+                            <input type="text" name="telephoneNumber" th:value=${entity.telephoneNumber} maxlength="20"/>
+                            <span style="color: red;"></span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th">
+                            Email：
+                        </td>
+                        <td class="td">
+                            <input type="text" name="email" th:value=${entity.email} />
+                            <span style="color: red;"></span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th">
+                            QQ：
+                        </td>
+                        <td class="td">
+                            <input type="text" name="qq" th:value=${entity.qq} maxlength="20"/>
+                            <span style="color: red;"></span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th">
+                            地址：
+                        </td>
+                        <td class="td" colspan="3">
+                            <input type="text" name="address" th:value=${entity.address}  style="width: 200px" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div style="display: inline-block ; margin: 10px auto;">
+            <button id="btnSave1" type="button" class="btn btn-primary btn-sm"><i class="icon-save bigger-110"></i>保存</button>
+            &nbsp; &nbsp; &nbsp;
+            <button id="btnCancel" type="button" class="btn  btn-sm"><i class="icon-undo bigger-110"></i>取消</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

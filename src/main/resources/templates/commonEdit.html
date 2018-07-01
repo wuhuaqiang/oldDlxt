@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="description" content="电网规划项目辅助决策系统开发"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- basic styles -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}"/>
+    <!--[if IE 7]>
+    <link rel="stylesheet" th:href="@{/css/font-awesome-ie7.min.css}"/>
+    <![endif]-->
+
+    <!--<link rel="stylesheet" th:href="@{/css/jquery.gritter.css}"/>-->
+    <link rel="stylesheet" th:href="@{/css/chosen.css}">
+    <!-- fonts -->
+    <!-- ace styles -->
+    <link rel="stylesheet" th:href="@{/skins/default/contextmenu.css}"/>
+    <link rel="stylesheet" th:href="@{/css/ace.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/ace-rtl.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/ace-skins.min.css}"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" th:href="@{/css/ace-ie.min.css}"/>
+    <![endif]-->
+    <!-- page specific plugin styles -->
+    <link rel="stylesheet" th:href="@{/css/jquery-ui-1.10.3.custom.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/Edit.css}"/>
+
+    <!-- ace settings handler -->
+    <script th:src="@{/js/ace-extra.min.js}"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script th:src="@{/js/html5shiv.js}"></script>
+    <script th:src="@{/js/respond.min.js}"></script>
+    <![endif]-->
+    <script th:src="@{/js/jquery-2.0.3.min.js}" type="text/javascript"></script>
+    <!--[if IE]>
+    <script type="text/javascript">
+        window.jQuery || document.write("<script th:src='@{/js/jquery-1.10.2.min.js}'>" + "<" + "/script>");
+    </script>
+    <![endif]-->
+    <script type="text/javascript">
+        if ("ontouchend" in document) document.write("<script th:src=\"@{/assets/js/jquery.mobile.custom.min.js}\">" + "<" + "/script>");
+    </script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/typeahead-bs2.min.js}"></script>
+    <!-- page specific plugin scripts -->
+    <!--[if lte IE 8]>
+    <script th:src="@{/js/excanvas.min.js}"></script>
+    <![endif]-->
+    <script th:src="@{/js/jquery-ui-1.10.3.custom.min.js}"></script>
+    <script th:src="@{/js/jquery.ui.touch-punch.min.js}"></script>
+    <script th:src="@{/js/chosen.jquery.min.js}"></script>
+    <script th:src="@{/js/bootbox.min.js}"></script>
+    <!--<script th:src="@{/js/jquery.gritter.min.js}"></script>-->
+    <script th:src="@{/js/spin.min.js}"></script>
+    <!-- ace scripts -->
+    <script th:src="@{/js/ace-elements.min.js}"></script>
+    <script th:src="@{/js/ace.min.js}"></script>
+    <script th:src="@{/js/contextmenu.js}" type="text/javascript"></script>
+    <script th:src="@{/lib/layer/layer.js}" type="text/javascript"></script>
+    <script th:src="@{/js/kylin-strlimit-tool.js}" type="text/javascript"></script>
+    <!-- inline scripts related to this page -->
+</head>
+<body>
+<div class="main-container" id="main-container">
+    <div class="main-container-inner">
+        <form id="editForm">
+            <div class="widget-body">
+                <div class="widget-main">
+                    <div style="text-align: left; padding-left: 12px" >
+                        <span class="icon-warning-sign red" id="errorMsg" style="display:none"></span>
+                    </div>
+                    <div class="tab-content" th:utext="${tableContent}">
+                    </div>
+                </div>
+            </div>
+            <div style="display: inline-block ; margin: 10px auto;">
+                <input id="hidId" name="id" th:value=${entity.id} type="hidden"/>
+                <button id="btnSave" type="button" class="btn btn-primary btn-sm"><i class="icon-save bigger-110"></i>保存
+                </button>
+                &nbsp; &nbsp; &nbsp;
+                <button id="btnCancel" type="button" class="btn btn-sm"><i class="icon-undo bigger-110"></i>取消</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(function () {
+        $(".chosen-select").chosen();
+
+        $("#btnCancel").click(function () {
+            top.layer.closeAll();
+        });
+
+       var type = [[${type}]];
+        var baseUrl = [[${autoBuilderParam.mapUrl}]];
+        $("#btnSave").click(function () {
+            $("#errorMsg").hide();
+            $(".errorMsgSpan").html("");
+            var postData = $("#editForm").serialize();
+            if(type!=null)
+            {
+                postData+="&type="+type;
+            }
+            var id = $("#hidId").val();
+            var url = baseUrl+(id!==""?"/saveModify":"/saveAdd");
+            $.ajax({
+                type: "Post",
+                url: url,
+                data: postData,
+                success: function (data) {
+                    if (data.success) {
+                        top.layer.alert('保存成功！',
+                            {
+                                closeBtn: 0
+                            },
+                            function () {
+                                top.layer.closeAll();
+                            });
+                    } else {
+                        if(data.message!=="") {
+                            $("#errorMsg").show();
+                            $("#errorMsg").text(data.message);
+                        }
+
+                        if(data.fieldErrors!==null)
+                        {
+                            $.each(data.fieldErrors,function(idx,obj) {
+                                var fieldName = obj.field;
+                                $("[name="+fieldName+"]").parent().find('>span:last').html(obj.defaultMessage);
+                            });
+                            $("[limit]").limit();
+                            $(".errorMsgSpan").tooltip({container: 'body'});
+                        }
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    if(XMLHttpRequest.status===401) {
+                        top.layer.alert('登录超时或无权执行该操作，请重新登录！',
+                            {
+                                closeBtn: 0
+                            },
+                            function () {
+                                top.layer.closeAll();
+                                window.parent.location = "/login";
+                            });
+                    }
+                    else {
+                        $("#errorMsg").show();
+                        $("#errorMsg").text("保存出错,稍后重试！");
+                    }
+                }
+            });
+        });
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

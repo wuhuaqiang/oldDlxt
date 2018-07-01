@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{editlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>高压线路信息</title>
+</head>
+<body>
+<div class="main-container-inner" layout:fragment="edit-content">
+    <form id="editForm">
+        <div class="widget-body">
+            <div class="widget-main">
+                <div style="text-align: left; padding-left: 12px" >
+                    <span class="icon-warning-sign red" id="errorMsg" style="display:none"></span>
+                </div>
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                        <li class="active"><a data-toggle="tab" href="#home1">基本信息</a></li>
+                        <li><a data-toggle="tab" href="#home2">线路长度型号及载流量信息</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="home1" class="tab-pane  in active">
+                            <div class="widget-header">
+                                <h4>线路基本信息</h4>
+                                <div class="widget-toolbar" style="line-height: 20px;">
+                                    <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <table>
+                                        <tr>
+                                            <th class="th">
+                                                线路名称：
+                                            </th>
+                                            <td class="td">
+                                                <input name="xlmc"  th:value="${entity.xlmc}"  type="text" />
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                            <th class="th">
+                                                线路编号：
+                                            </th>
+                                            <td class="td">
+                                                <input name="xlbh"  th:value="${entity.xlbh}" type="text" />
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                            <th class="th">
+                                                电压等级(kV)：
+                                            </th>
+                                            <td class="td">
+                                                <select name="dydj" class="chosen-select">
+                                                    <option th:each="voltage:${voltages}" th:value="${voltage.key}"
+                                                            th:text="${voltage.value}"
+                                                            th:selected="${voltage.key==entity.dydj}"></option>
+                                                </select>
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th">
+                                                所属区域：
+                                            <td class="td">
+                                                <select name="qyId" class="chosen-select">
+                                                    <option th:each="qy:${qys}" th:value="${qy.key}"
+                                                            th:text="${qy.value}"
+                                                            th:selected="${qy.key==entity.qyId}"></option>
+                                                </select>
+                                            <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                        </td>
+                                            <th class="th">
+                                                供区类型：
+                                            <td class="td">
+                                                <select name="gqlx" class="chosen-select">
+                                                    <option th:each="gqlx:${gqlxs}" th:value="${gqlx.key}"
+                                                            th:text="${gqlx.value}"
+                                                            th:selected="${gqlx.key==entity.gqlx}"></option>
+                                                </select>
+                                            <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                        </td>
+                                            <th class="th">
+                                                运维单位：
+                                            </th>
+                                            <td class="td">
+                                                <select name="ywdw" class="chosen-select">
+                                                    <option th:each="ywdw:${ywdws}" th:value="${ywdw.key}"
+                                                            th:text="${ywdw.value}"
+                                                            th:selected="${ywdw.key==entity.ywdw}"></option>
+                                                </select>
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                        <th class="th">
+                                            CT变比：
+                                        </th>
+                                        <td class="td">
+                                            <select name="ctbb" class="chosen-select">
+                                                <option th:each="ctbb:${ctbbs}" th:value="${ctbb.key}"
+                                                        th:text="${ctbb.value}"
+                                                        th:selected="${ctbb.key==entity.ctbb}"></option>
+                                            </select>
+                                            <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                        </td>
+                                        <th class="th">
+                                            城农网：
+                                        </th>
+                                        <td class="td">
+                                            <select name="cnw" class="chosen-select">
+                                                <option th:each="cnw:${cnws}" th:value="${cnw.key}"
+                                                        th:text="${cnw.value}"
+                                                        th:selected="${cnw.key==entity.cnw}"></option>
+                                            </select>
+                                            <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                        </td>
+                                        <th class="th">
+                                            使用方式：
+                                        </th>
+                                        <td class="td">
+                                            <select name="syfs" class="chosen-select">
+                                                <option th:each="syfs:${syfss}" th:value="${syfs.key}"
+                                                        th:text="${syfs.value}"
+                                                        th:selected="${syfs.key==entity.syfs}"></option>
+                                            </select>
+                                            <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                        </td>
+                                    </tr>
+                                        <tr>
+                                            <th class="th">
+                                                敷设方式：
+                                            </th>
+                                            <td class="td">
+                                                <select name="fsfs" class="chosen-select">
+                                                    <option th:each="fsfs:${fsfss}" th:value="${fsfs.key}"
+                                                            th:text="${fsfs.value}"
+                                                            th:selected="${fsfs.key==entity.fsfs}"></option>
+                                                </select>
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                            <th class="th">
+                                                电网结构：
+                                            </th>
+                                            <td class="td">
+                                                <select name="dwjg" class="chosen-select" >
+                                                    <option value="">--请选择--</option>
+                                                    <option value="单链接" th:selected="${entity.dwjg=='单链接'}">单链接</option>
+                                                    <option value="单辐射" th:selected="${entity.dwjg=='单辐射'}">单辐射</option>
+                                                    <option value="双辐射" th:selected="${entity.dwjg=='双辐射'}">双辐射</option>
+                                                    <option value="单环网" th:selected="${entity.dwjg=='单环网'}">单环网</option>
+                                                </select>
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                            <th class="th">
+                                                满足N-1：
+                                            </th>
+                                            <td class="td">
+                                                <select name="n_1" class="chosen-select">
+                                                    <option value="是" th:selected="${entity.n_1=='是'}">是</option>
+                                                    <option value="否" th:selected="${entity.n_1=='否'}">否</option>
+                                                </select>
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th">
+                                                起点类型：
+                                            </th>
+                                            <td class="td">
+                                                <select name="qdlx" class="chosen-select">
+                                                    <option value="" th:selected="${entity.qdlx==''}">---请选择---</option>
+                                                    <option value="变电站" th:selected="${entity.qdlx=='变电站'}">变电站</option>
+                                                    <option value="重要用户" th:selected="${entity.qdlx=='重要用户'}">重要用户</option>
+                                                    <option value="电源" th:selected="${entity.qdlx=='电源'}">电源</option>
+                                                    <option value="线路" th:selected="${entity.qdlx=='线路'}">线路</option>
+                                                </select>
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                            <th class="th">
+                                                起点：
+                                            </th>
+                                            <td class="td">
+                                                <select name="sjqd" class="chosen-select">
+                                                    <option th:each="jdlx:${qdlxs}" th:value="${jdlx.key}"
+                                                            th:text="${jdlx.value}"
+                                                            th:selected="${jdlx.key==entity.sjqd}"></option>
+                                                </select>
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                            <th class="th">
+                                                开关编号首：
+                                            </th>
+                                            <td class="td">
+                                                <input name="kgbhs"  th:value="${entity.kgbhs}"  type="text" />
+                                            </td>
+                                           <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                        </tr>
+                                        <tr>
+                                            <th class="th">
+                                                终点类型：
+                                            </th>
+                                            <td class="td">
+                                                <select name="zdlx" class="chosen-select">
+                                                    <option value="" th:selected="${entity.zdlx==''}">---请选择---</option>
+                                                    <option value="变电站" th:selected="${entity.zdlx=='变电站'}">变电站</option>
+                                                    <option value="重要用户" th:selected="${entity.zdlx=='重要用户'}">重要用户</option>
+                                                    <option value="电源" th:selected="${entity.zdlx=='电源'}">电源</option>
+                                                    <option value="线路" th:selected="${entity.zdlx=='线路'}">线路</option>
+                                                </select>
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                            <th class="th">
+                                                终点：
+                                            </th>
+                                            <td class="td">
+                                                <select name="sjzd" class="chosen-select">
+                                                    <option th:each="jdlx:${zdlxs}" th:value="${jdlx.key}"
+                                                            th:text="${jdlx.value}"
+                                                            th:selected="${jdlx.key==entity.sjzd}"></option>
+                                                </select>
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                            <th class="th">
+                                                开关编号末：
+                                            </th>
+                                            <td class="td">
+                                                <input name="kgbhm"  th:value="${entity.kgbhm}"  type="text" />
+                                            </td>
+                                            <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                        </tr>
+                                        <tr>
+                                            <th class="th">
+                                                投运时间：
+                                            </th>
+                                            <td class="td">
+                                                <input type="text" name="tysj" th:value=${entity.tysj}
+                                                       class="Wdate" readonly="readonly" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                            <th class="th">
+                                                停运时间：
+                                            </th>
+                                            <td class="td">
+                                                <input type="text" name="tuiyisj" th:value=${entity.tuiyisj}
+                                                       class="Wdate" readonly="readonly" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+                                               <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                            <th class="th">
+                                                运行状态：
+                                            </th>
+                                            <td class="td">
+                                                <select name="status" class="chosen-select">
+                                                    <option value="" th:selected="${entity.status==''}">---请选择---</option>
+                                                    <option value="运行" th:selected="${entity.status=='运行'}">运行</option>
+                                                    <option value="停运" th:selected="${entity.status=='停运'}">停运</option>
+                                                </select>
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th">
+                                                电阻(Ω)：
+                                            </th>
+                                            <td class="td">
+                                                <input name="dz"  th:value="${entity.dz}"  type="text" />
+                                                <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                            <th class="th">
+                                                电抗(Ω)：
+                                            </th>
+                                            <td class="td">
+                                                <input name="dk"  th:value="${entity.dk}" type="text" />
+                                                <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                            <th class="th">
+                                                备注：
+                                            </th>
+                                            <td class="td" colspan="3">
+                                                     <textarea name="remark" th:text="${entity.remark}"
+                                                               style="width: 80%; height: auto!important;"></textarea>
+                                                <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!--线路长度、型号及载流量信息-->
+                        <div id="home2" class="tab-pane">
+                            <table style="width: 100%">
+                                <tr>
+                                    <th class="th">
+                                    </th>
+                                    <th class="th" style="text-align: center">
+                                        架空导线(km)
+                                    </th>
+                                    <th class="th" style="text-align: center">
+                                        电缆(km)
+                                    </th>
+                                    <th class="th" style="text-align: center">
+                                        总长(km)
+                                    </th>
+                                    <th class="th" style="text-align: center">
+                                        其中同塔双回
+                                    </th>
+                                    <th class="th" style="text-align: center">
+                                        电缆型号
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                            全线(km)：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="qxjk" th:value=${entity.qxjk}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                    </td>
+                                    <td class="td">
+                                        <input type="text" name="qxdl" th:value=${entity.qxdl}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                    </td>
+                                    <td class="td">
+                                        <input type="text" name="qxzc" th:value=${entity.qxzc}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                    </td>
+                                    <td class="td">
+                                        <input type="text" name="qzttsh" th:value=${entity.qzttsh}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                    </td>
+                                    <td class="td">
+                                        <select name="dlxh" class="chosen-select">
+                                            <option th:each="dxxh:${dxxhs}" th:value="${dxxh.key}"
+                                                    th:text="${dxxh.value}"
+                                                    th:selected="${dxxh.key==entity.dlxh}"></option>
+                                        </select>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                        导线型号一：
+                                    </th>
+                                    <td class="td">
+                                        <select name="dxxh1" class="chosen-select">
+                                            <option th:each="dxxh:${dxxhs}" th:value="${dxxh.key}"
+                                                    th:text="${dxxh.value}"
+                                                    th:selected="${dxxh.key==entity.dxxh1}"></option>
+                                        </select>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                    </td>
+                                    <th class="th">
+                                        导线型号二：
+                                    </th>
+                                    <td class="td">
+                                        <select name="dxxh2" class="chosen-select">
+                                            <option th:each="dxxh:${dxxhs}" th:value="${dxxh.key}"
+                                                    th:text="${dxxh.value}"
+                                                    th:selected="${dxxh.key==entity.dxxh2}"></option>
+                                        </select>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                    </td>
+                                    <th class="th">
+                                        导线型号三：
+                                    </th>
+                                    <td class="td">
+                                        <select name="dxxh3" class="chosen-select">
+                                            <option th:each="dxxh:${dxxhs}" th:value="${dxxh.key}"
+                                                    th:text="${dxxh.value}"
+                                                    th:selected="${dxxh.key==entity.dxxh3}"></option>
+                                        </select>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                            最小截面导线：
+                                    </th>
+                                    <td class="td">
+                                        <input name="zxjmdx"  th:value="${entity.zxjmdx}" type="text" />
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                    </td>
+                                    <th class="th">
+                                        最大允许电流(A)：
+                                    </th>
+                                    <td class="td">
+                                        <input name="zdyxdl"  th:value="${entity.zdyxdl}" type="text" />
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                    </td>
+                                    <th class="th">
+                                        是否CT影响：
+                                    </th>
+                                    <td class="td">
+                                        <select name="sfyxct" class="chzn-select">
+                                            <option value="" th:selected="${entity.sfyxct==''}">---请选择---</option>
+                                            <option value="是" th:selected="${entity.sfyxct=='是'}">是</option>
+                                            <option value="否" th:selected="${entity.sfyxct=='否'}">否</option>
+                                        </select>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                            分段数：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="fds" th:value="${entity.fds}"
+                                               onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                               onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                    </td>
+                                    <th class="th">
+                                        分段长度(km)：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="fdcd"  th:value="${entity.fdcd}"
+                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display: inline-block ; margin: 10px auto;">
+            <input id="hidId" name="id" th:value=${entity.id} type="hidden"/>
+            <button id="btnSave" type="button" class="btn btn-primary btn-sm"><i class="icon-save bigger-110"></i>保存
+            </button>
+            &nbsp; &nbsp; &nbsp;
+            <button id="btnCancel" type="button" class="btn  btn-sm"><i class="icon-undo bigger-110"></i>取消</button>
+        </div>
+    </form>
+    <script type="text/javascript">
+        $(function () {
+//            $("#btnCancel").click(function () {
+//                top.layer.closeAll();
+//            })
+
+            $("input[name='qxjk'],input[name='qxdl']").on("change",function () {
+                $("input[name='qxzc']").val(parseFloat($("input[name='qxjk']").val())+parseFloat($("input[name='qxdl']").val()));
+            });
+
+            $("select[name='qdlx']").on("change",function() {
+                  var qdlx = $(this).val();
+                  getJdlx(qdlx,$("select[name='sjqd']"))
+            });
+
+            $("select[name='zdlx']").on("change",function() {
+                var zdlx = $(this).val();
+                getJdlx(zdlx,$("select[name='sjzd']"))
+            });
+
+            var getJdlx = function (type,jds) {
+                $.ajax({
+                    type: "Post",
+                    url: "/facility/gyxlxx/getJdlx",
+                    data: {jdlx:type},
+                    success: function (data) {
+                        jds.empty();
+                        $.each(data,function(idx,obj) {
+                            jds.append("<option value='"+ idx+"'>"+obj+"</option>");
+                        });
+                        $(".chosen-select").trigger("chosen:updated");
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    }
+                });
+            }
+
+//            $("#btnSave").click(function () {
+//                $.ajax({
+//                    type: "Post",
+//                    url: "/facility/gyxlxx/save",
+//                    data: $("#editForm").serialize(),
+//                    success: function (data) {
+//                        if (data.success) {
+//                            top.layer.alert('保存成功！',
+//                                {
+//                                    closeBtn: 0
+//                                },
+//                                function () {
+//                                    top.layer.closeAll();
+//                                });
+//                        } else {
+//                            top.layer.alert(data.message);
+//                        }
+//                    },
+//                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+//                        top.layer.alert("保存出错！");
+//                    }
+//                });
+//            });
+        });
+    </script>
+</div>
+</body>
+</html>

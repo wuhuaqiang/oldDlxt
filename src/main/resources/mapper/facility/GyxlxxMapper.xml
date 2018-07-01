@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kylin.electricassistsys.mapper.facility.GyxlxxMapper">
+    <select id="getEntitiesByCondition" parameterType="com.kylin.electricassistsys.entity.facility.GyxlxxEntity"  resultType="com.kylin.electricassistsys.entity.facility.GyxlxxEntity">
+        SELECT Gyxlxx.*,D1.name AS qyname,D6.name AS ywdwName,D4.name as dlxhName,D2.name as dxxh1Name,D3.name as dxxh2Name,D5.name as dxxh3Name
+        FROM Gyxlxx
+        LEFT JOIN PowerSupplyZone D1 ON LOWER(Gyxlxx.qyId) = LOWER(D1.id)
+        LEFT JOIN Unit D6  ON LOWER(Gyxlxx.ywdw) = LOWER(D6.id)
+        LEFT JOIN Dxcs D4  ON LOWER(Gyxlxx.dlxh) = LOWER(D4.id)
+        LEFT JOIN Dxcs D2  ON LOWER(Gyxlxx.dxxh1) = LOWER(D2.id)
+        LEFT JOIN Dxcs D3  ON LOWER(Gyxlxx.dxxh2) = LOWER(D3.id)
+        LEFT JOIN Dxcs D5  ON LOWER(Gyxlxx.dxxh3) = LOWER(D5.id)
+        WHERE 1=1
+        <if test="xlmc!= null and xlmc != '' ">
+            AND Gyxlxx.xlmc LIKE CONCAT(CONCAT('%', #{xlmc}), '%')
+        </if>
+        <if test="qyId!= null and qyId != '' ">
+            AND LOWER(Gyxlxx.qyId)=LOWER(#{qyId})
+        </if>
+        <if test="gqlx!= null and gqlx != '' ">
+            AND LOWER(Gyxlxx.gqlx)=LOWER(#{gqlx})
+        </if>
+        <if test="cnw!= null and cnw != '' ">
+            AND LOWER(Gyxlxx.cnw)=LOWER(#{cnw})
+        </if>
+        <if test="dydj!= null and dydj != '' ">
+            AND LOWER(Gyxlxx.dydj)=LOWER(#{dydj})
+        </if>
+        <if test="syfs!= null and syfs != '' ">
+            AND LOWER(Gyxlxx.syfs)=LOWER(#{syfs})
+        </if>
+        ORDER BY Gyxlxx.updateTime DESC
+    </select>
+</mapper>

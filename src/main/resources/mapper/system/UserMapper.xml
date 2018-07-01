@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kylin.electricassistsys.mapper.system.UserMapper">
+    <resultMap id="userMap" type="com.kylin.electricassistsys.entity.system.User">
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="isAccountNonExpired" column="isAccountNonExpired"/>
+        <result property="isAccountNonLocked" column="isAccountNonLocked"/>
+        <result property="isCredentialsNonExpired" column="isCredentialsNonExpired"/>
+        <result property="isEnabled" column="isEnabled"/>
+        <result property="addTime" column="addTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="lockTime" column="lockTime"/>
+        <result property="id" column="id" />
+        <result property="changePwdTime" column="changePwdTime"/>
+        <result property="accountStatus" column="accountStatus"/>
+        <collection property="roles" ofType="com.kylin.electricassistsys.entity.system.RoleEntity">
+            <result column="name" property="name"/>
+            <result column="id" property="id"/>
+        </collection>
+    </resultMap>
+    <select id="getEntityByUsername" parameterType="String" resultMap="userMap">
+        SELECT User.*,Role.*
+        FROM User
+        LEFT JOIN UserRole on User.id= UserRole.userId
+        LEFT JOIN Role on UserRole.roleId=Role.id
+        where User.username= #{username}
+    </select>
+</mapper>

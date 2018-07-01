@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{editlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>变压器参数</title>
+</head>
+<body>
+<div class="main-container-inner" layout:fragment="edit-content">
+    <form id="editForm">
+        <div class="widget-body">
+            <div class="widget-main">
+                <div style="text-align: left; padding-left: 12px" >
+                    <span class="icon-warning-sign red" id="errorMsg" style="display:none"></span>
+                </div>
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab4">
+                        <li class="active"><a data-toggle="tab" href="#home1">基本信息</a> </li>
+                        <li><a data-toggle="tab" href="#home3">主变信息</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <!--变电站信息-->
+                        <div id="home1" class="tab-pane  in active">
+                            <div class="widget-box home2">
+                                <div class="widget-header">
+                                    <h4>变电站信息</h4>
+                                    <div class="widget-toolbar" style="line-height: 20px;">
+                                        <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                    </div>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <table>
+                                            <tr>
+                                                <th class="th">
+                                                        变电站名称
+                                                </th>
+                                                <td class="td">
+                                                    <select name="bdz" class="chzn-select ddlGqlx" style="width: 180px">
+                                                        <option th:each="bdz:${bdzs}" th:value="${bdz.key}"
+                                                                th:text="${bdz.value}"
+                                                                th:selected="${bdz.key==entity.bdz}"></option>
+                                                    </select>
+                                                    <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                                <th class="th">
+                                                    运维单位：
+                                                </th>
+                                                <td class="td">
+                                                <span>
+                                                    <input type="text" name="ywdwName"   style="width: 180px;" readonly="readonly" /></span>
+                                                </td>
+                                                <th class="th">
+                                                    电压等级(kV)：
+                                                </th>
+                                                <td class="td">
+                                                <span>
+                                                    <input type="text" name="dydj"   style="width: 180px;" readonly="readonly" /></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="th">
+                                                        所属区域：
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="qyName"   style="width: 180px;" readonly="readonly" />
+                                                </td>
+                                                <th class="th">
+                                                    供区类型：
+                                                </th>
+                                                <td class="td">
+                                                <span>
+                                                    <input type="text" name="gqlx"  style="width: 180px;" readonly="readonly" /></span>
+                                                </td>
+                                                <th class="th">
+                                                    &nbsp;
+                                                </th>
+                                                <td class="td">
+                                                    &nbsp;
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-box home2">
+                                <div class="widget-header">
+                                    <h4>变压器信息</h4>
+                                    <div class="widget-toolbar" style="line-height: 20px;">
+                                        <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                    </div>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <table>
+                                            <tr>
+                                                <th class="th">
+                                                        变压器名称：
+                                                </th>
+                                                <td class="td">
+                                                    <input name="byqName"  th:value="${entity.byqName}" style="width: 180px;" type="text" />
+                                                    <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                                <th class="th">
+                                                    变电容量(MVA)：
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text"  name="bdrl" th:value="${entity.bdrl}"  style="width: 180px;"
+                                                           onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                    <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                                <th class="th">
+                                                    变压器型号：
+                                                </th>
+                                                <td class="td">
+                                                    <input name="mpxh" th:value="${entity.mpxh}" style="width: 180px;" type="text" />
+                                                    <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="th">
+                                                    铭牌变比：
+                                                </th>
+                                                <td class="td">
+                                                    <select name="mpbb" class="chzn-select ddlGqlx" style="width: 180px">
+                                                        <option th:each="mpbb:${mpbbs}" th:value="${mpbb.key}"
+                                                                th:text="${mpbb.value}"
+                                                                th:selected="${mpbb.key==entity.mpbb}"></option>
+                                                    </select>
+                                                    <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                                <th class="th">
+                                                    额定电压：
+                                                </th>
+                                                <td class="td">
+                                                    <input data-rel="tooltip" type="text" name="eddy" th:value="${entity.eddy}"
+                                                           style="width: 180px;" title="格式：220±8×1.5%/121/10.5!" data-placement="bottom" />
+                                                    <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                                <th class="th">
+                                                    调压方式：
+                                                </th>
+                                                <td class="td">
+                                                    <select name="tsfs" class="chzn-select ddlGqlx" style="width: 180px">
+                                                        <option th:each="tsfs:${tsfss}" th:value="${tsfs.key}"
+                                                                th:text="${tsfs.value}"
+                                                                th:selected="${tsfs.key==entity.tsfs}"></option>
+                                                    </select>
+                                                    <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="th">
+                                                    投运时间：
+                                                </th>
+                                                <td class="td">
+                                                    <input  name="btysj" th:value="${entity.btysj}"  type="text"
+                                                            class="Wdate" readonly="readonly" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  />
+                                                    <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                                <th class="th">
+                                                    <p>
+                                                        退役时间：</p>
+                                                </th>
+                                                <td class="td">
+                                                    <input name="etysj" th:value="${entity.etysj}"
+                                                           type="text" class="Wdate" readonly="readonly" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+                                                </td>
+                                                <th class="th">
+                                                    运行状态：
+                                                </th>
+                                                <td class="td">
+                                                    <select name="zt" style="width: 75px;">
+                                                        <option value="运行" th:selected="${entity.zt=='运行'}">运行</option>
+                                                        <option value="退役" th:selected="${entity.zt=='退役'}">退役</option>
+                                                    </select>
+                                                    <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="th">
+                                                    绕组型式：
+                                                </th>
+                                                <td class="td">
+                                                    <select name="rzxs" class="chzn-select ddlGqlx" style="width: 180px">
+                                                        <option th:each="rzxs:${rzxss}" th:value="${rzxs.key}"
+                                                                th:text="${rzxs.value}"
+                                                                th:selected="${rzxs.key==entity.rzxs}"></option>
+                                                    </select>
+                                                    <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                                <th class="th">
+                                                        备注：
+                                                </th>
+                                                <td class="td" colspan="3">
+                                                    <textarea name="remark" th:text="${entity.remark}" cols="60" rows="2" data-maxlength="50"></textarea>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--主变信息-->
+                        <div id="home3" class="tab-pane">
+                            <table style="text-align: center; height: 100px">
+                                <tr>
+                                    <th class="th">
+                                        <p>
+                                            高-中阻抗%：</p>
+                                    </th>
+                                    <td class="td">
+                                        <input name="gzzk" th:value="${entity.gzzk}" type="text" class="txt"  style="width: 180px;"
+                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                       <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        中-低阻抗%：
+                                    </th>
+                                    <td class="td">
+                                        <input name="zdzk" th:value="${entity.zdzk}" type="text" class="txt"  style="width: 180px;"
+                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        高-低阻抗%：
+                                    </th>
+                                    <td class="td">
+                                        <input name="gdzk" th:value="${entity.gdzk}" type="text" class="txt"  style="width: 180px;"
+                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                        <p>
+                                            高-中损耗(kW)：</p>
+                                    </th>
+                                    <td class="td">
+                                        <input name="gzsh" th:value="${entity.gzsh}" type="text" class="txt"  style="width: 180px;"
+                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        中-低损耗(kW)：
+                                    </th>
+                                    <td class="td">
+                                        <input name="zdsh" th:value="${entity.zdsh}" type="text" class="txt"  style="width: 180px;"
+                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        高-低损耗(kW)：
+                                    </th>
+                                    <td class="td">
+                                        <input name="gdsh" th:value="${entity.gdsh}" type="text" class="txt"  style="width: 180px;"
+                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                        <p>
+                                            高-中电阻(Ω)：</p>
+                                    </th>
+                                    <td class="td">
+                                        <input name="gzdz" th:value="${entity.gzdz}" type="text" class="txt"  style="width: 180px;"
+                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        中-低电阻(Ω)：
+                                    </th>
+                                    <td class="td">
+                                        <input name="zddz" th:value="${entity.zddz}" type="text" class="txt"  style="width: 180px;"
+                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        高-低电阻(Ω)：
+                                    </th>
+                                    <td class="td">
+                                        <input name="gddz" th:value="${entity.gddz}" type="text" class="txt"  style="width: 180px;"
+                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                            高-中电抗(Ω)：
+                                    </th>
+                                    <td class="td">
+                                        <input name="gzdk" th:value="${entity.gzdk}" type="text" class="txt"  style="width: 180px;"
+                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        中-低电抗(Ω)：
+                                    </th>
+                                    <td class="td">
+                                        <input name="zddk" th:value="${entity.zddk}" type="text" class="txt" style="width: 180px;"
+                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        高-低电抗(Ω)：
+                                    </th>
+                                    <td class="td">
+                                        <input name="gddk" th:value="${entity.gddk}" type="text" class="txt"  style="width: 180px;"
+                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                            无功补偿容量(MVA):
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" th:value="${entity.wgbcrl}" class="txt" name="wgbcrl" style="width: 180px;"
+                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        无功补偿构成:
+                                    </th>
+                                    <td class="td">
+                                        <input data-rel="tooltip" type="text" name="wgbcgc" th:value="${entity.wgbcgc}"  placeholder=""
+                                               style="width: 180px;" title="这里输入无功补偿构成!" data-placement="bottom" />
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        无功补偿度(%):
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="wgbcd" th:value="${entity.wgbcd}" style="width: 180px;" class="txtonlyread1" />
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display: inline-block ; margin: 10px auto;">
+            <input id="hidId" name="id" th:value=${entity.id} type="hidden"/>
+            <button id="btnSave" type="button" class="btn btn-primary btn-sm"><i class="icon-save bigger-110"></i>保存</button>
+            &nbsp; &nbsp; &nbsp;
+            <button id="btnCancel" type="button" class="btn btn-sm"><i class="icon-undo bigger-110"></i>取消</button>
+        </div>
+    </form>
+    <script type="text/javascript">
+        $(function () {
+            var bindBdzzxx = function () {
+                var postData = {'id':$("select[name='bdz']").val()};
+                $.ajax({
+                    type: "Post",
+                    url: "/facility/bdzxx/getBdzxx",
+                    data: postData,
+                    success: function (data) {
+                        $("input[name='ywdwName']").val(data.ywdwName);
+                        $("input[name='dydj']").val(data.dydj);
+                        $("input[name='qyName']").val(data.qyName);
+                        $("input[name='gqlx']").val(data.gqlx);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        top.layer.alert("保存出错！");
+                    }
+                });
+            }
+
+            bindBdzzxx();
+
+            $("select[name='bdz']").on("change",function () {
+                bindBdzzxx();
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+﻿body
+{
+    text-align: center;
+}
+
+table
+{
+    margin: auto;
+    margin-top: 5px;
+    text-align: center;
+    line-height: 22px;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: auto;
+    border: 0;
+    margin: 0;
+    border-collapse: collapse;
+    width: 100%;
+}
+.td
+{
+    text-align: center;
+    background: White;
+    text-align: left;
+    padding: 5px;
+    /*width:180px;*/
+    word-break: keep-all;
+    white-space: nowrap;
+    border: 1px solid #bdbdbd;
+    vertical-align: middle;
+}
+.th
+{
+    font-weight: normal;
+    text-align: right;
+    width: 160px;
+    word-break: keep-all;
+    white-space: nowrap;
+    border: 1px solid #bdbdbd;
+    line-height: 25px;
+    height: 35px;
+    padding-right: 2px;
+    background: #e0e0e0;
+}
+
+.td > *:first-child
+{
+    width:180px;
+    height: 28px!important;
+}
+.chosen-container
+{
+    width: 180px!important;
+}

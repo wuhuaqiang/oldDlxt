@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kylin.electricassistsys.mapper.facility.ByqxxMapper">
+    <select id="getEntitiesByCondition" parameterType="com.kylin.electricassistsys.entity.facility.ByqxxEntity"  resultType="com.kylin.electricassistsys.entity.facility.ByqxxEntity">
+        SELECT A.*,D1.name AS qyname FROM
+        (SELECT  Byqxx.*, Bdzxx.dydj,Bdzxx.qyId,Bdzxx.gqlx,Bdzxx.syfs,Bdzxx.bdzName FROM  Byqxx LEFT JOIN Bdzxx ON Byqxx.bdz = Bdzxx.id) A
+        LEFT JOIN PowerSupplyZone D1 ON LOWER(A.qyId) = LOWER(D1.id) WHERE 1=1
+        <if test="bdz!= null and bdz != '' ">
+            AND LOWER(A.bdz)=LOWER(#{bdz})
+        </if>
+        <if test="qyId!= null and qyId != '' ">
+            AND LOWER(A.qyId)=LOWER(#{qyId})
+        </if>
+        <if test="gqlx!= null and gqlx != '' ">
+            AND LOWER(A.gqlx)=LOWER(#{gqlx})
+        </if>
+        <if test="dydj!= null and dydj != '' ">
+            AND LOWER(A.dydj)=LOWER(#{dydj})
+        </if>
+        ORDER BY A.updateTime DESC
+    </select>
+</mapper>

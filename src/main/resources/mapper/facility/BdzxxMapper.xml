@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kylin.electricassistsys.mapper.facility.BdzxxMapper">
+    <select id="getEntitiesByCondition" parameterType="com.kylin.electricassistsys.entity.facility.BdzxxEntity"  resultType="com.kylin.electricassistsys.entity.facility.BdzxxEntity">
+        SELECT Bdzxx.*,D1.name AS qyname,D6.name AS ywdwName FROM Bdzxx
+        LEFT JOIN PowerSupplyZone D1 ON LOWER(Bdzxx.qyId) = LOWER(D1.id)
+        LEFT JOIN Unit D6  ON LOWER(Bdzxx.ywdw) = LOWER(D6.id) WHERE 1=1
+        <if test="bdzName!= null and bdzName != '' ">
+            AND Bdzxx.bdzName LIKE CONCAT(CONCAT('%', #{bdzName}), '%')
+        </if>
+        <if test="qyId!= null and qyId != '' ">
+            AND LOWER(Bdzxx.qyId)=LOWER(#{qyId})
+        </if>
+        <if test="gqlx!= null and gqlx != '' ">
+            AND LOWER(Bdzxx.gqlx)=LOWER(#{gqlx})
+        </if>
+        <if test="cnw!= null and cnw != '' ">
+            AND LOWER(Bdzxx.cnw)=LOWER(#{cnw})
+        </if>
+        <if test="dydj!= null and dydj != '' ">
+            AND LOWER(Bdzxx.dydj)=LOWER(#{dydj})
+        </if>
+        <if test="syfs!= null and syfs != '' ">
+            AND LOWER(Bdzxx.syfs)=LOWER(#{syfs})
+        </if>
+        ORDER BY Bdzxx.updateTime DESC
+    </select>
+
+    <select id="getEntityById" parameterType="String" resultType="com.kylin.electricassistsys.entity.facility.BdzxxEntity">
+        SELECT Bdzxx.*,D1.name AS qyname,D6.name AS ywdwName FROM Bdzxx
+        LEFT JOIN PowerSupplyZone D1 ON LOWER(Bdzxx.qyId) = LOWER(D1.id)
+        LEFT JOIN Unit D6  ON LOWER(Bdzxx.ywdw) = LOWER(D6.id) WHERE 1=1
+        AND LOWER(Bdzxx.id)=LOWER(#{id})
+    </select>
+</mapper>

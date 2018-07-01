@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{editlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>用户角色设置</title>
+</head>
+<body>
+<div class="main-container-inner" layout:fragment="edit-content">
+    <form id="editForm">
+        <div class="widget-body">
+            <div class="widget-main">
+                <div style="margin: 10px;float: left">
+                   <button id="btnSelectAll" type="button" class="btn btn-xs btn-primary">全选</button>
+                    <button id="btnSelectNone" type="button" class="btn btn-xs btn-primary">全不选</button>
+                    <button id="btnSelectOther" type="button" class="btn btn-xs btn-primary">反选</button>
+                </div>
+                <div style="margin: 10px; text-align: left">
+                    <div th:each="role:${roles}" style="display:inline-block; width: 160px" >
+                        <input name="roleId" th:id="${role.roleId}" type="checkbox" th:value="${role.roleId}"  th:checked="${role.checked}"/>
+                        <label th:text="${role.roleName}" th:for="${role.roleId}"> </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display: inline-block ; margin: 10px auto;">
+            <input id="hidId" name="userId" th:value=${userId} type="hidden"/>
+            <button id="btnSave1" type="button" class="btn btn-info btn-sm"><i class="icon-save align-center  icon-on-left"></i>保存</button>
+            &nbsp; &nbsp; &nbsp;
+            <button id="btnCancel" type="button" class="btn btn-sm"><i class="icon-undo align-center  icon-on-left"></i>取消</button>
+        </div>
+    </form>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnSelectAll").on("click", function () {
+                $("input[name='roleId']").each(function () {
+                    $(this).prop("checked",true);
+                })
+            });
+
+            $("#btnSelectNone").on("click", function () {
+                $("input[name='roleId']").each(function () {
+                    $(this).prop("checked",false);
+                })
+            });
+
+            $("#btnSelectOther").on("click", function () {
+                $("input[name='roleId']").each(function () {
+                    if($(this).prop('checked'))
+                    {
+                        $(this).prop("checked",false);
+                    }
+                    else
+                    {
+                        $(this).prop("checked",true);
+                    }
+                })
+            });
+
+            $("#btnCancel").click(function () {
+                top.layer.closeAll();
+            })
+
+            $("#btnSave1").click(function () {
+                $.ajax({
+                    type: "Post",
+                    url: "/system/role/saveUserSetRole",
+                    data: $("#editForm").serialize(),
+                    success: function (data) {
+                        if (data.success) {
+                            top.layer.alert('保存成功！',
+                                {
+                                    closeBtn: 0
+                                },
+                                function () {
+                                    top.layer.closeAll();
+                                });
+                        } else {
+                            top.layer.alert('保存失败！');
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        top.layer.alert("保存出错！");
+                    }
+                });
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

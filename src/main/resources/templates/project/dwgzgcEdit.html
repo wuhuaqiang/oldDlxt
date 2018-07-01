@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{editlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>电网站改造工程编辑</title>
+</head>
+<body>
+<div class="main-container-inner" layout:fragment="edit-content">
+    <form id="editForm">
+        <div class="widget-body">
+            <div class="widget-main">
+                <div style="text-align: left; padding-left: 12px" >
+                    <span class="icon-warning-sign red" id="errorMsg" style="display:none"></span>
+                </div>
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                        <li class="active"><a data-toggle="tab" href="#home1">基本信息</a></li>
+                        <li><a data-toggle="tab" href="#home2">设备信息</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="home1" class="tab-pane  in active">
+                            <div class="widget-header">
+                                <h4>
+                                    电站改造工程</h4>
+                                <div class="widget-toolbar" style="line-height: 20px;">
+                                    <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <table>
+                                        <tr>
+                                            <th class="th"> 项目名称:</th>
+                                            <td class="td">
+                                                <input type="text" name="xmmc" data-valuType="string" th:value=${entity.xmmc} />
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                            <th class="th">
+                                                运维单位：
+                                            </th>
+                                            <td class="td">
+                                                <select name="ywdwId" class="chosen-select">
+                                                    <option th:each="ywdw:${ywdws}" th:value="${ywdw.key}"
+                                                            th:text="${ywdw.value}"
+                                                            th:selected="${ywdw.key==entity.ywdwId}"></option>
+                                                </select>
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                            <th class="th">
+                                                所属区域：
+                                            <td class="td">
+                                                <select name="qyId" class="chosen-select">
+                                                    <option th:each="qy:${qys}" th:value="${qy.key}"
+                                                            th:text="${qy.value}"
+                                                            th:selected="${qy.key==entity.qyId}"></option>
+                                                </select>
+                                            <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th"> 规划年份:</th>
+                                            <td class="td">
+                                                <input type="text" name="ghnf" th:value=${entity.ghnf} class="Wdate" readonly="readonly" onclick="WdatePicker({dateFmt:'yyyy',minDate:'1900',maxDate:'2099'})" />
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                            <th class="th">
+                                                供区类型：
+                                            <td class="td">
+                                                <select name="gqlx" class="chosen-select">
+                                                    <option th:each="gqlx:${gqlxs}" th:value="${gqlx.key}"
+                                                            th:text="${gqlx.value}"
+                                                            th:selected="${gqlx.key==entity.gqlx}"></option>
+                                                </select>
+                                            <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                        </td>
+                                            <th class="th">
+                                                电压等级(kV)：
+                                            </th>
+                                            <td class="td">
+                                                <select name="voltage" class="chosen-select">
+                                                    <option th:each="voltage:${voltages}" th:value="${voltage.key}"
+                                                            th:text="${voltage.value}"
+                                                            th:selected="${voltage.key==entity.voltage}"></option>
+                                                </select>
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th">
+                                                城农网：
+                                            </th>
+                                            <td class="td">
+                                                <select name="cnw" class="chosen-select">
+                                                    <option th:each="cnw:${cnws}" th:value="${cnw.key}"
+                                                            th:text="${cnw.value}"
+                                                            th:selected="${cnw.key==entity.cnw}"></option>
+                                                </select>
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                            <th class="th">
+                                                资产属性：
+                                            </th>
+                                            <td class="td">
+                                                <input type="text" name="zcsx" th:value=${entity.zcsx} />
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                            <th class="th">
+                                                计划总投资(万元)：
+                                            </th>
+                                            <td class="td">
+                                                <input type="text" name="xmtz" th:value=${entity.xmtz} data-valuType="float"
+                                                       onkeyup="if(isNaN(value))execCommand('undo')"
+                                                       onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                                <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th">
+                                                农网建设性质1：
+                                            </th>
+                                            <td class="td">
+                                                <select name="nwjsxz1" class="chosen-select">
+                                                    <option value="">--请选择--</option>
+                                                    <option th:selected="${entity.nwjsxz1=='未改造地区农网改造升级'}"
+                                                            value="未改造地区农网改造升级">已改造地区农网改造升级
+                                                    </option>
+                                                    <option th:selected="${entity.nwjsxz1=='农网改造升级'}" value="农网改造升级">
+                                                        农网改造升级
+                                                    </option>
+                                                    <option th:selected="${entity.nwjsxz1=='无电地区电力建设'}"
+                                                            value="无电地区电力建设">无电地区电力建设
+                                                    </option>
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                </select>
+                                            </td>
+                                            <th class="th">
+                                                农网建设性质2：
+                                            </th>
+                                            <td class="td">
+                                                <select name="nwjsxz2" class="chosen-select">
+                                                    <option value="">--请选择--</option>
+                                                    <option th:selected="${entity.nwjsxz2=='农业生产供电设施改造'}"
+                                                            value="农业生产供电设施改造">农业生产供电设施改造
+                                                    </option>
+                                                    <option th:selected="${entity.nwjsxz2=='农林场等供电设施'}"
+                                                            value="农林场等供电设施">农林场等供电设施
+                                                    </option>
+                                                    <option th:selected="${entity.nwjsxz2=='示范县'}" value="示范县">示范县
+                                                    </option>
+                                                    <option th:selected="${entity.nwjsxz2=='其他'}" value="其他">其他</option>
+                                                </select>
+                                                <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                            <th class="th">
+                                                农网建设性质3：
+                                            </th>
+                                            <td class="td">
+                                                <select name="nwjsxz3" class="chosen-select">
+                                                    <option value="-">--请选择--</option>
+                                                    <option th:selected="${entity.nwjsxz3=='机井通电供电设施改造'}"
+                                                            value="机井通电供电设施改造">机井通电供电设施改造
+                                                    </option>
+                                                    <option th:selected="${entity.nwjsxz3=='农村经济作物和农副产品生产加工供电设施改造'}"
+                                                            value="农村经济作物和农副产品生产加工供电设施改造">农村经济作物和农副产品生产加工供电设施改造
+                                                    </option>
+                                                    <option th:selected="${entity.nwjsxz3=='乡村旅游供电设施改造'}"
+                                                            value="乡村旅游供电设施改造">乡村旅游供电设施改造
+                                                    </option>
+                                                    <option th:selected="${entity.nwjsxz3=='农村公用供电设施改造'}"
+                                                            value="农村公用供电设施改造">农村公用供电设施改造
+                                                    </option>
+                                                    <option th:selected="${entity.nwjsxz3=='畜禽水产养殖供电设施改造'}"
+                                                            value="畜禽水产养殖供电设施改造">畜禽水产养殖供电设施改造
+                                                    </option>
+                                                    <option th:selected="${entity.nwjsxz3=='其他'}" value="其他">其他</option>
+                                                </select>
+                                                <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th">
+                                                工程性质：
+                                            </th>
+                                            <td class="td" colspan="5">
+                                                <textarea name="gcxz" th:text="${entity.gcxz}" style="width: 80%; height: auto!important;"></textarea>
+                                                <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!--其他信息-->
+                        <div id="home2" class="tab-pane">
+                            <!--改造-->
+                            <div class="divDome2">
+                                <!--配变-->
+                                <div class="widget-box">
+                                    <div class="widget-header">
+                                        <h4>
+                                            配变</h4>
+                                        <div class="widget-toolbar" style="line-height: 20px;">
+                                            <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <table>
+                                                <tr>
+                                                    <th class="th">
+                                                            改造总台数(台)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="gzzts" th:value=${entity.gzzts}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                    <th class="th">
+                                                        改造前总容量(KVA)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="gzqzrl" th:value=${entity.gzqzrl}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                    <th class="th">
+                                                        改造后总容量(KVA)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="gzhzrl" th:value=${entity.gzhzrl}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="th">
+                                                            其中:需改造高损台数(台)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="gzgsts" th:value=${entity.gzgsts}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                    <th class="th">
+                                                        其中:需改造高损容量(KVA)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="gzgsrl" th:value=${entity.gzgsrl}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                    <th class="th">
+                                                        配变投资(万元)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="pbtz" th:value=${entity.pbtz}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="th">
+                                                            其中:更换为非晶台数(台)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="fjts" th:value=${entity.fjts}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                    <th class="th">
+                                                        其中:更换为非晶容量(KVA)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="fjrl" th:value=${entity.fjrl}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--无功补偿装置-->
+                                <div class="widget-box">
+                                    <div class="widget-header">
+                                        <h4>
+                                            无功补偿装置</h4>
+                                        <div class="widget-toolbar" style="line-height: 20px;">
+                                            <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <table>
+                                                <tr>
+                                                    <th class="th">
+                                                            组数(组)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="wgzs" th:value=${entity.wgzs}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                    <th class="th">
+                                                        总容量(KVar)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="wgzrl" th:value=${entity.wgzrl}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                    <th class="th">
+                                                        无功补偿装置投资(万元)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="wgtz" th:value=${entity.wgtz}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--线路-->
+                                <div class="widget-box">
+                                    <div class="widget-header">
+                                        <h4>
+                                            线路</h4>
+                                        <div class="widget-toolbar" style="line-height: 20px;">
+                                            <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <table>
+                                                <tr>
+                                                    <th class="th">
+                                                            架空线路长度(km)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="jkxlcd" th:value=${entity.jkxlcd}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                    <th class="th">
+                                                        其中绝缘导线长度(km)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="jydxcd" th:value=${entity.jydxcd}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                    <th class="th">
+                                                        架空线路投资(万元)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="jkxltz" th:value=${entity.jkxltz}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="th">
+                                                            电缆线路长度(km)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="dlxlcd" th:value=${entity.dlxlcd}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                    <th class="th">
+                                                        沟道长度(km)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="gdcd" th:value=${entity.gdcd}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                    <th class="th">
+                                                        电缆线路投资(万元)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="dlxltz" th:value=${entity.dlxltz}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--开关类-->
+                                <div class="widget-box">
+                                    <div class="widget-header">
+                                        <h4>
+                                            开关类</h4>
+                                        <div class="widget-toolbar" style="line-height: 20px;">
+                                            <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <table>
+                                                <tr>
+                                                    <th class="th">
+                                                            断路器(台)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="dlq" th:value=${entity.dlq}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                    <th class="th">
+                                                        负荷开关(台)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="fhkg" th:value=${entity.fhkg}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                    <th class="th">
+                                                            环网柜(座)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="hwg" th:value=${entity.hwg}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="th">
+                                                            电缆分支箱(座)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="dlfzx" th:value=${entity.dlfzx}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                    <th class="th">
+                                                        开关类投资(万元)：
+                                                    </th>
+                                                    <td class="td">
+                                                        <input type="text" name="kgtz" th:value=${entity.kgtz}
+                                                               onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--户表-->
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>
+                                        户表</h4>
+                                    <div class="widget-toolbar" style="line-height: 20px;">
+                                        <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                    </div>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <table>
+                                            <tr>
+                                                <th class="th">
+                                                        户表(户)：
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="hb" th:value=${entity.hb}
+                                                           onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                </td>
+                                                <th class="th">
+                                                    接户线(km)：
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="jhx" th:value=${entity.jhx}
+                                                           onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                </td>
+                                                <th class="th">
+                                                        户表投资(万元)：
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="hbtz" th:value=${entity.hbtz}
+                                                           onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--资金来源-->
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>
+                                        资金来源</h4>
+                                    <div class="widget-toolbar" style="line-height: 20px;">
+                                        <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                    </div>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <table>
+                                            <tr>
+                                                <th class="th">
+                                                    中央计划(%)：
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="zyjh" th:value=${entity.zyjh}
+                                                           onkeyup="if(isNaN(value))execCommand('undo')"
+                                                           onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                </td>
+                                                <th class="th">
+                                                    公司自筹(%)：
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="gszc" th:value=${entity.gszc}
+                                                           onkeyup="if(isNaN(value))execCommand('undo')"
+                                                           onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                </td>
+                                                <th class="th">
+                                                    县级供电企业自筹(%)：
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="xjgdqyzc" th:value=${entity.xjgdqyzc}
+                                                           onkeyup="if(isNaN(value))execCommand('undo')"
+                                                           onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="th">
+                                                    <p>
+                                                        用户投资(%)：</p>
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="yhtz" th:value=${entity.yhtz}
+                                                           onkeyup="if(isNaN(value))execCommand('undo')"
+                                                           onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                </td>
+                                                <th class="th">
+                                                    小区配套费(%)：
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="xqptf" th:value=${entity.xqptf}
+                                                           onkeyup="if(isNaN(value))execCommand('undo')"
+                                                           onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                </td>
+                                                <th class="th">
+                                                    政府垫资(%)：
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="zfdz" th:value=${entity.zfdz}
+                                                           onkeyup="if(isNaN(value))execCommand('undo')"
+                                                           onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="th">
+                                                    其他(%)
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="qttz" th:value=${entity.qttz}
+                                                           onkeyup="if(isNaN(value))execCommand('undo')"
+                                                           onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display: inline-block ; margin: 10px auto;">
+            <input id="hidId" name="id" th:value=${entity.id} type="hidden"/>
+            <input name="type" value="2" type="hidden">
+            <button id="btnSave" type="button" class="btn btn-primary btn-sm"><i class="icon-save bigger-110"></i>保存
+            </button>
+            &nbsp; &nbsp; &nbsp;
+            <button id="btnCancel" type="button" class="btn  btn-sm"><i class="icon-undo bigger-110"></i>取消</button>
+        </div>
+    </form>
+    <!--<script type="text/javascript">-->
+        <!--$(function () {-->
+            <!--$("#btnCancel").click(function () {-->
+                <!--top.layer.closeAll();-->
+            <!--})-->
+
+            <!--$("#btnSave").click(function () {-->
+                <!--$.ajax({-->
+                    <!--type: "Post",-->
+                    <!--url: "/project/dwgzgc/save",-->
+                    <!--data: $("#editForm").serialize(),-->
+                    <!--success: function (data) {-->
+                        <!--if (data.success) {-->
+                            <!--top.layer.alert('保存成功！',-->
+                                <!--{-->
+                                    <!--closeBtn: 0-->
+                                <!--},-->
+                                <!--function () {-->
+                                    <!--top.layer.closeAll();-->
+                                <!--});-->
+                        <!--} else {-->
+                            <!--top.layer.alert(data.message);-->
+                        <!--}-->
+                    <!--},-->
+                    <!--error: function (XMLHttpRequest, textStatus, errorThrown) {-->
+                        <!--top.layer.alert("保存出错！");-->
+                    <!--}-->
+                <!--});-->
+            <!--});-->
+        <!--});-->
+    <!--</script>-->
+</div>
+</body>
+</html>

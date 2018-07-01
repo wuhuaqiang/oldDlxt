@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kylin.electricassistsys.mapper.basedata.DwyxzbMapper">
+    <select id="getAll" resultType="com.kylin.electricassistsys.entity.basedata.DwyxzbEntity">
+        SELECT DWYXZB.*,D1.NAME AS supplyZoneTypeName,D2.NAME AS voltageName FROM DWYXZB
+        LEFT JOIN DICPARAM D1 ON DWYXZB."SUPPLYZONETYPEID" = D1."ID" AND D1."TYPE"=3
+        LEFT JOIN DICPARAM D2  ON DWYXZB."VOLTAGEID" = D2."ID" AND D2."TYPE"=2
+    </select>
+
+    <insert id="add" parameterType="com.kylin.electricassistsys.entity.basedata.DwyxzbEntity">
+        INSERT INTO "DWYXZB" ("ID","SUPPLYZONETYPEID","VOLTAGEID","RZB","DZS","DBL","ZBTS","ZBBL","XLTS","XLBL")
+        VALUES  (#{id},#{supplyZoneTypeId},#{voltageId},#{rzb},#{dzs},#{dbl},#{zbts},#{zbbl},#{xlts},#{xlbl})
+    </insert>
+
+    <update id="update" parameterType="com.kylin.electricassistsys.entity.basedata.DwyxzbEntity">
+        UPDATE "DWYXZB" SET
+        "SUPPLYZONETYPEID" = #{supplyZoneTypeId},
+        "VOLTAGEID" = #{voltageId},
+        "RZB"= #{rzb},
+        "DZS" = #{dzs},
+        "DBL" = #{dbl},
+        "ZBTS"= #{zbts},
+        "ZBBL" = #{zbbl},
+        "XLTS" = #{xlts},
+        "XLBL" = #{xlbl}
+        WHERE "ID" = #{id}
+    </update>
+
+    <select id="getEntityById" parameterType="String" resultType="com.kylin.electricassistsys.entity.basedata.DwyxzbEntity">
+        SELECT DWYXZB.*,D1.NAME AS supplyZoneTypeName,D2.NAME AS voltageName FROM DWYXZB
+        LEFT JOIN DICPARAM D1 ON DWYXZB."SUPPLYZONETYPEID" = D1."ID" AND D1."TYPE"=3
+        LEFT JOIN DICPARAM D2  ON DWYXZB."VOLTAGEID" = D2."ID" AND D2."TYPE"=2 WHERE DWYXZB."ID" = #{id}
+    </select>
+
+    <delete id="deleteById" parameterType="String">
+        DELETE FROM "DWYXZB" WHERE "ID" = #{id}
+    </delete>
+
+    <delete id="deleteByIds" parameterType="String">
+        DELETE FROM "DWYXZB" WHERE "ID" IN
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="getEntitiesByCondition" parameterType="com.kylin.electricassistsys.entity.basedata.DwpbsbEntity"  resultType="com.kylin.electricassistsys.entity.basedata.DwyxzbEntity">
+        SELECT DWYXZB.*,D1.NAME AS supplyZoneTypeName,D2.NAME AS voltageName FROM DWYXZB
+        LEFT JOIN DICPARAM D1 ON DWYXZB."SUPPLYZONETYPEID" = D1."ID" AND D1."TYPE"=3
+        LEFT JOIN DICPARAM D2  ON DWYXZB."VOLTAGEID" = D2."ID" AND D2."TYPE"=2 WHERE 1=1
+        <if test="supplyZoneTypeId!= null and supplyZoneTypeId != '' ">
+            AND DWYXZB."SUPPLYZONETYPEID"=#{supplyZoneTypeId}
+        </if>
+        <if test="voltageId!= null and voltageId != '' ">
+            AND DWYXZB."VOLTAGEID"=#{voltageId}
+        </if>
+    </select>
+</mapper>

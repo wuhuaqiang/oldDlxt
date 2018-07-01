@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kylin.electricassistsys.mapper.basedata.LsfhdlMapper">
+    <select id="getEntitiesByCondition" parameterType="com.kylin.electricassistsys.entity.basedata.LsfhdlEntity"  resultType="com.kylin.electricassistsys.entity.basedata.LsfhdlEntity">
+        SELECT LSFHDL.*,D1.NAME AS qyname,D2.NAME AS gqlxname FROM LSFHDL
+        LEFT JOIN POWERSUPPLYZONE D1 ON LOWER(LSFHDL."QYID") = LOWER(D1."ID")
+        LEFT JOIN DICPARAM D2  ON LOWER(LSFHDL."GQLX") = LOWER(D2."ID") AND D2."TYPE"=3 WHERE 1=1
+        <if test="qyid!= null and qyid != '' ">
+            AND LOWER(LSFHDL."QYID")=LOWER(#{qyid})
+        </if>
+        <if test="gqlx!= null and gqlx != '' ">
+            AND LOWER(LSFHDL."GQLX")=LOWER(#{gqlx})
+        </if>
+        <if test="year!= null and year != '' ">
+            AND LSFHDL."YEAR"=#{year}
+        </if>
+    </select>
+</mapper>

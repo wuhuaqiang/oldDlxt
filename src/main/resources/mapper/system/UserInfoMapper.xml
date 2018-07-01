@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kylin.electricassistsys.mapper.system.UserInfoMapper">
+    <select id="getEntityById" parameterType="String" resultType="com.kylin.electricassistsys.entity.system.UserInfoEntity">
+        select UserInfo.*,User.username,User.password from UserInfo LEFT JOIN User ON UserInfo.id=User.id WHERE UserInfo.id = #{id}
+    </select>
+
+    <select id="getEntitiesByCondition" resultType="com.kylin.electricassistsys.entity.system.UserInfoEntity">
+        select UserInfo.*,User.username,User.accountStatus,User.isAccountNonLocked AS isUnlock ,Unit.name AS unitName from UserInfo
+        LEFT JOIN User ON UserInfo.id=User.id
+        LEFT JOIN Unit  ON UserInfo.unitId = Unit.id
+        WHERE 1=1
+        <if test="unitId!= null and unitId != '' ">
+            AND UnitId=#{unitId}
+        </if>
+        <if test="name!= null and name != '' ">
+            AND UserInfo.name LIKE CONCAT(CONCAT('%', #{name}), '%')
+        </if>
+        ORDER BY UserInfo.updateTime DESC
+    </select>
+
+    <select id="getUserInfoByUsername" parameterType="String" resultType="com.kylin.electricassistsys.entity.system.UserInfoEntity">
+        select UserInfo.*,User.username,User.accountStatus from UserInfo LEFT JOIN User ON UserInfo.id=User.id WHERE User.username = #{username}
+    </select>
+</mapper>

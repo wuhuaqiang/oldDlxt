@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kylin.electricassistsys.mapper.system.RoleAuthorityMapper">
+    <select id="getRoleAuthorityByUsername" parameterType="String" resultType="com.kylin.electricassistsys.entity.system.RoleAuthorityEntity">
+        SELECT RoleAuthority.*,Menu.url
+        FROM User
+        LEFT JOIN UserRole on User.id= UserRole.userId
+        LEFT JOIN RoleAuthority  on UserRole.roleId=RoleAuthority.roleId
+        LEFT JOIN Menu ON  Menu.id = RoleAuthority.menuId
+        where User.username= #{username}
+    </select>
+
+    <select id="getAll" resultType="com.kylin.electricassistsys.entity.system.RoleAuthorityEntity">
+        SELECT RoleAuthority.*,Menu.url
+        FROM RoleAuthority
+        LEFT JOIN Menu ON  Menu.id = RoleAuthority.menuId
+    </select>
+
+    <select id="getPreviousMenuButtonAuthorityByUrl"  resultType="int">
+        SELECT RoleAuthority.methods
+        FROM User
+        LEFT JOIN UserRole on User.id= UserRole.userId
+        LEFT JOIN RoleAuthority  on UserRole.roleId=RoleAuthority.roleId
+        LEFT JOIN Menu ON  Menu.preId = RoleAuthority.menuId
+        WHERE Menu.url = #{url} AND  User.username= #{username}
+    </select>
+</mapper>

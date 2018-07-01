@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kylin.electricassistsys.mapper.basedata.MaintainGroupMapper">
+
+    <select id="getAll" resultType="com.kylin.electricassistsys.entity.CommonEntity">
+        select * from MAINTAINGROUP ORDER BY "INDEX"
+    </select>
+
+    <insert id="add" parameterType="com.kylin.electricassistsys.entity.CommonEntity">
+        INSERT INTO MAINTAINGROUP ("ID","NAME","INDEX","REMARK")
+        VALUES   (#{id},#{name},#{index},#{remark})
+    </insert>
+
+    <update id="update" parameterType="com.kylin.electricassistsys.entity.CommonEntity">
+        UPDATE MAINTAINGROUP SET
+        "NAME" = #{name},
+        "INDEX" = #{index},
+        "REMARK"= #{remark}
+        WHERE "ID" = #{id}
+    </update>
+
+    <select id="getEntityById" parameterType="String" resultType="com.kylin.electricassistsys.entity.CommonEntity">
+        select * from MAINTAINGROUP WHERE "ID" = #{id}
+    </select>
+
+    <delete id="deleteById" parameterType="String">
+        DELETE FROM MAINTAINGROUP WHERE "ID" = #{id}
+    </delete>
+
+    <delete id="deleteByIds" parameterType="String">
+        DELETE FROM MAINTAINGROUP WHERE "ID" IN
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+
+    <select id="getByName"  parameterType="String" resultType="com.kylin.electricassistsys.entity.CommonEntity">
+        select * from MAINTAINGROUP WHERE "NAME" LIKE CONCAT(CONCAT('%', #{name}), '%')
+    </select>
+</mapper>

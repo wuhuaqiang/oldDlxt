@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kylin.electricassistsys.mapper.system.RoleMapper">
+    <!--<select id="getAll" resultType="com.kylin.electricassistsys.entity.CommonEntity">-->
+        <!--select * from ROLE ORDER BY "INDEX"-->
+    <!--</select>-->
+
+    <!--<insert id="add" parameterType="com.kylin.electricassistsys.entity.CommonEntity">-->
+        <!--INSERT INTO ROLE ("ID","NAME","INDEX","STATUS")-->
+        <!--VALUES   (#{id},#{name},#{index},#{status})-->
+    <!--</insert>-->
+
+    <!--<update id="update" parameterType="com.kylin.electricassistsys.entity.CommonEntity">-->
+        <!--UPDATE ROLE SET-->
+        <!--"NAME" = #{name},-->
+        <!--"INDEX" = #{index},-->
+        <!--"STATUS"= #{status}-->
+        <!--WHERE "ID" = #{id}-->
+    <!--</update>-->
+
+    <!--<select id="getEntityById" parameterType="String" resultType="com.kylin.electricassistsys.entity.CommonEntity">-->
+        <!--select * from ROLE WHERE "ID" = #{id}-->
+    <!--</select>-->
+
+    <!--<delete id="deleteById" parameterType="String">-->
+        <!--DELETE FROM ROLE WHERE "ID" = #{id}-->
+    <!--</delete>-->
+
+    <!--<delete id="deleteByIds" parameterType="String">-->
+        <!--DELETE FROM ROLE WHERE "ID" IN-->
+        <!--<foreach item="item" index="index" collection="array" open="(" separator="," close=")">-->
+            <!--#{item}-->
+        <!--</foreach>-->
+    <!--</delete>-->
+
+
+    <!--<select id="getByName"  parameterType="String" resultType="com.kylin.electricassistsys.entity.CommonEntity">-->
+        <!--select * from ROLE WHERE "NAME" LIKE CONCAT(CONCAT('%', #{name}), '%')-->
+    <!--</select>-->
+
+    <select id="getRoleByIdUserId"  parameterType="String" resultType="String">
+        select roleId from UserRole WHERE userId= #{userId}
+    </select>
+</mapper>

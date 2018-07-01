@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kylin.electricassistsys.mapper.basedata.ZyyhxxMapper">
+    <select id="getEntitiesByCondition" parameterType="com.kylin.electricassistsys.entity.basedata.ZyyhxxEntity"  resultType="com.kylin.electricassistsys.entity.basedata.ZyyhxxEntity">
+        SELECT Zyyhxx.*,D1.name AS qyname,D2.bdzName AS bdzName FROM Zyyhxx
+        LEFT JOIN PowerSupplyZone D1 ON LOWER(Zyyhxx.qyId) = LOWER(D1.id)
+        LEFT JOIN Bdzxx D2 ON LOWER(Zyyhxx.bdz) = LOWER(D2.id) WHERE 1=1
+        <if test="xmmc!= null and xmmc != '' ">
+            AND Zyyhxx.xmmc LIKE CONCAT(CONCAT('%', #{xmmc}), '%')
+        </if>
+        ORDER BY Zyyhxx.updateTime DESC
+    </select>
+</mapper>

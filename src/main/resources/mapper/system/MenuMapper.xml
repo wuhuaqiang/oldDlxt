@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kylin.electricassistsys.mapper.system.MenuMapper">
+    <select id="getAllMenus" resultType="com.kylin.electricassistsys.entity.system.MenuTreeGridEntity">
+        select * from Menu ORDER BY rank
+    </select>
+
+    <select id="getAllMenuTreeGridRoleAuthority" resultType="com.kylin.electricassistsys.entity.system.MenuTreeGridRoleAuthorityEntity">
+        select * from Menu ORDER BY rank
+    </select>
+
+    <select id="getMenuById" parameterType="String" resultType="com.kylin.electricassistsys.entity.system.MenuEntity">
+        select * from Menu WHERE id = #{id}
+    </select>
+
+    <insert id="addMenu" parameterType="com.kylin.electricassistsys.entity.system.MenuEntity">
+        INSERT INTO Menu (id,preId,name,url,iconName,rank,type,status)
+        VALUES   (#{id},#{preId},#{name},#{url},#{iconName},#{rank},#{type},#{status})
+    </insert>
+
+    <update id="updateMenu" parameterType="com.kylin.electricassistsys.entity.system.MenuEntity">
+        UPDATE Menu SET
+        preId = #{preId},
+        name = #{name},
+        url = #{url},
+        iconName= #{iconName},
+        rank = #{rank},
+        type= #{type},
+        status= #{status},
+        WHERE id = #{id};
+    </update>
+
+    <delete id="deleteMenuById" parameterType="String">
+        DELETE FROM Menu WHERE id = #{id}
+    </delete>
+
+    <select id="getEntitiesByCondition" parameterType="com.kylin.electricassistsys.entity.system.MenuEntity"  resultType="com.kylin.electricassistsys.entity.system.MenuEntity">
+        select * from Menu  WHERE status=#{status}
+    </select>
+
+    <select  id="setSort"  statementType="CALLABLE">
+        call "Proc_UpDownMENU"(#{ysId,mode=IN,jdbcType=VARCHAR},#{isUpOrDown,mode=IN,jdbcType=VARCHAR})
+    </select >
+</mapper>

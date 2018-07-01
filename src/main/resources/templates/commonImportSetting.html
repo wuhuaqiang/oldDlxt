@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="description" content="电网规划项目辅助决策系统开发"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- basic styles -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}"/>
+    <!--[if IE 7]>
+    <link rel="stylesheet" th:href="@{/css/font-awesome-ie7.min.css}"/>
+    <![endif]-->
+    <!-- page specific plugin styles -->
+    <link rel="stylesheet" th:href="@{/css/jquery-ui-1.10.3.custom.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/jquery.gritter.css}"/>
+    <link rel="stylesheet" th:href="@{/css/chosen.css}">
+    <!-- fonts -->
+    <!-- ace styles -->
+    <link rel="stylesheet" th:href="@{/skins/default/contextmenu.css}"/>
+    <link rel="stylesheet" th:href="@{/css/ace.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/ace-rtl.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/ace-skins.min.css}"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" th:href="@{/css/ace-ie.min.css}"/>
+    <![endif]-->
+    <link rel="stylesheet" th:href="@{/css/Edit.css}"/>
+    <link rel="stylesheet" th:href="@{/lib/ligerUI/skins/Aqua/css/ligerui-all.css}">
+    <!-- ace settings handler -->
+    <script th:src="@{/js/ace-extra.min.js}"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script th:src="@{/js/html5shiv.js}"></script>
+    <script th:src="@{/js/respond.min.js}"></script>
+    <![endif]-->
+    <script th:src="@{/js/jquery-2.0.3.min.js}" type="text/javascript"></script>
+    <!--[if IE]>
+    <script type="text/javascript">
+        window.jQuery || document.write("<script th:src='@{/js/jquery-1.10.2.min.js}'>" + "<" + "/script>");
+    </script>
+    <![endif]-->
+    <script type="text/javascript">
+        if ("ontouchend" in document) document.write("<script th:src=\"@{/assets/js/jquery.mobile.custom.min.js}\">" + "<" + "/script>");
+    </script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/typeahead-bs2.min.js}"></script>
+    <!-- page specific plugin scripts -->
+    <!--[if lte IE 8]>
+    <script th:src="@{/js/excanvas.min.js}"></script>
+    <![endif]-->
+    <script th:src="@{/js/jquery-ui-1.10.3.custom.min.js}"></script>
+    <script th:src="@{/js/jquery.ui.touch-punch.min.js}"></script>
+    <script th:src="@{/js/chosen.jquery.min.js}"></script>
+    <script th:src="@{/js/bootbox.min.js}"></script>
+    <script th:src="@{/js/jquery.gritter.min.js}"></script>
+    <script th:src="@{/js/spin.min.js}"></script>
+    <!-- ace scripts -->
+    <script th:src="@{/js/ace-elements.min.js}"></script>
+    <script th:src="@{/js/ace.min.js}"></script>
+    <script th:src="@{/js/contextmenu.js}" type="text/javascript"></script>
+    <script th:src="@{/lib/layer/layer.js}" type="text/javascript"></script>
+    <script th:src="@{/lib/ligerUI/js/core/base.js}"></script>
+    <script th:src="@{/lib/ligerUI/js/ligerui.min.js}"></script>
+    <!-- inline scripts related to this page -->
+    <style type="text/css">
+        .widget-box {
+            border-bottom: 0px;
+            padding-left: 3px;
+            padding-right: 3px;
+        }
+
+        .widget-header {
+            height: 20px;
+            min-height: 20px;
+            text-align: left;
+        }
+
+        .widget-header h4 {
+            font-size: 13px;
+            line-height: 20px;
+        }
+
+        .widget-header > :first-child {
+            line-height: 20px;
+        }
+
+        .widget-toolbar {
+            height: 20px;
+            line-height: 20px;
+        }
+
+        .widget-toolbar i {
+            line-height: 20px;
+        }
+
+        .bootbox-input {
+            width: 98%;
+        }
+
+        .chosen-choices .default {
+            display: none;
+            margin-left: -5px;
+        }
+
+        .chosen-choices {
+            min-height: 30px;
+            height: 30px;
+            line-height: 30px;
+        }
+
+        .myExternalEvent {
+            margin: 10px 4px 10px 6px;
+            padding: 0;
+            padding-left: 5px;
+            padding-right: 5px;
+            color: #FFF;
+            float: left;
+            font-size: 13px;
+            line-height: 28px;
+            height: 28px;
+            cursor: move;
+        }
+
+        #divShuJuYuan {
+            padding: 10px;
+        }
+
+        .wtSpreader table tbody tr td {
+            width: 100px;
+        }
+
+        .myMoveDiv {
+            width: 100px;
+        }
+
+        .MyExternalEventBase {
+            padding-top: 5px;
+        }
+
+        body {
+            background-color: White;
+        }
+
+        #topLoader {
+            width: 256px;
+            height: 256px;
+            position: absolute;
+        }
+
+        .btn-xs {
+            margin-left: 5px;
+        }
+
+        .ace-file-input {
+            width: 350px;
+            overflow: hidden;
+        }
+
+        .searchFilter {
+            width: 365px;
+            overflow: hidden;
+            height: 30px;
+        }
+
+        .ace-file-input .file-label.selected {
+            right: 18px;
+        }
+
+        .ace-file-input .remove {
+            right: 0px;
+        }
+
+        .menuabb {
+            overflow: scroll;
+            max-height: 350px;
+        }
+
+        .menu-line {
+            max-height: 350px;
+        }
+
+        .menu-top .menu {
+            overflow: scroll;
+            max-height: 350px;
+        }
+
+        .btn {
+            border-width: 2px;
+        }
+
+        .delete-rule2 {
+            border: 0;
+            background-color: #FFF;
+            color: #d15b47;
+            font-size: 20px;
+            width: 22px;
+            line-height: 10px;
+            padding: 0;
+            text-shadow: none !important;
+            display: inline-block;
+            -webkit-transition: all .1s;
+            transition: all .1s;
+            opacity: .85;
+        }
+
+        .widget-main {
+            padding-bottom: 0px;
+        }
+
+        .widget-main .tab-content {
+            border: 1px solid #c5d0dc;
+        }
+    </style>
+</head>
+<body>
+<div class="widget-main">
+    <div class="widget-box" style="padding: 0;">
+        <div class="widget-header">
+            <h4>导入操作选择</h4>
+            <div class="widget-toolbar">
+                <a href="#" data-action="collapse" style=""><i class="icon-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="widget-body">
+            <div class="widget-main">
+                <form id="editForm" method="POST" enctype="multipart/form-data">
+                    <table cellspacing="5" cellpadding="4" style="text-align: left">
+                        <tr>
+                            <td style="width: 365px; overflow: hidden;">
+                                <div class="searchFilter">
+                                    <input type="file" name="fuChoose" id="fuChoose" style="width: 320px!important;"
+                                           class="fuChoose"/>
+                                </div>
+                            </td>
+                            <td style="text-align: left">
+                                <!--<button type="button" class="btn btn-primary btn-sm" style="margin-right: 10px"-->
+                                        <!--id="btnLoadData">-->
+                                    <!--<span class="icon-cloud-upload align-center  icon-on-left"></span>加载数据-->
+                                <!--</button>-->
+                                <button type="button" class="btn btn-primary btn-sm" style="margin-right: 10px"
+                                        id="btnDownloadTemplate">
+                                    <span class=" icon-cloud-download align-center  icon-on-left"></span>模板下载
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="padding-top: 15px">
+                                <label>
+                                    <span class="lbl">唯一列</span>
+                                    <select name="keyColumn" class="chosen-select" style="width: 180px">
+                                        <option value="">---请选择---</option>
+                                        <option th:each="keyColumn:${keyColumns}" th:value="${keyColumn.key}"
+                                                th:text="${keyColumn.value}"></option>
+                                    </select>
+                                    <input id="hidType" name="type" th:value=${type} type="hidden"/>
+                                </label>
+                                <label>
+                                    <input name="insert" class="ace ace-switch ace-switch-4" checked="checked"
+                                           type="checkbox"/>
+                                    <span class="lbl">插入</span>
+                                </label>
+
+                                <label>
+                                    <input name="update" class="ace ace-switch ace-switch-4" checked="checked"
+                                           type="checkbox"/>
+                                    <span class="lbl">修改</span>
+                                </label>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="widget-box" style="padding: 0;">
+        <div class="widget-header">
+            <h4>数据预览</h4>
+            <div class="widget-toolbar">
+                <a href="#" data-action="collapse" style=""><i class="icon-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="widget-body">
+            <div class="widget-main">
+                <div id="tgPreview" style="margin:0; padding:0"></div>
+            </div>
+        </div>
+    </div>
+    <div class="widget-box"
+         style="padding: 0; padding-bottom: 4px; text-align: center; margin: auto; padding-top: 10px;">
+        <button type="button" class="btn btn-primary btn-sm" style="margin-right: 10px" id="btnImport">
+            <span class="icon-cloud-upload align-center  icon-on-left"></span>导入
+        </button>
+        &nbsp;
+        <button id="btnCancel" type="button" class="btn btn-sm"><i class="icon-undo bigger-110"></i>取消</button>
+    </div>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(function () {
+        var baseUrl = [[${autoBuilderParam.mapUrl}]];
+        var columns = [[${columns}]];
+        var customersData = [[${customersData}]];
+        $(".chosen-select").chosen();
+
+        $('.fuChoose').ace_file_input({
+            no_file: '选择数据文件...',
+            btn_choose: '加载数据',
+            btn_change: '加载数据',
+            droppable: true,
+            thumbnail: true,
+            whitelist: 'xls|xlsx|xlsb|xml|xltm|xlt|csv',
+            blacklist: 'xls|xlsx|xlsb|xml|xltm|xlt|csv',
+            before_change: function (files, dropped) {
+                var wjlx = "";
+                if (files[0].name == undefined) {
+                    //  IE
+                    var filename = files[0].replace(/.*(\/|\\)/, "");
+                    wjlx = (/[.]/.exec(filename)) ? /[^.]+$/.exec(filename) : '';
+                } else {
+                    //  谷歌
+                    var filename = files[0].name;
+                    wjlx = (/[.]/.exec(filename)) ? /[^.]+$/.exec(filename) : '';
+                }
+                if (wjlx == "xls" || wjlx == "xlsm" || wjlx == "xlsx" || wjlx == "xlt") {
+                    return true;
+                } else {
+                    //layer.msg('请选择Excel文件！');
+                    top.layer.alert('请选择Excel文件！', {icon: 6});
+                    return false;
+                }
+            }
+            , before_remove: function () {
+                $("#tgPreview").ligerGrid().set({
+                    data: {}
+                });
+                $("#tgPreview").ligerGrid().loadData();
+                return true;
+            },
+            onchange: function () {
+            }
+        }).on('change', function () {
+            var formData = new FormData($("#editForm")[0]);
+            $.ajax({
+                type: "Post",
+                url: baseUrl+"/preview",
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    customersData = data;
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    if(XMLHttpRequest.responseJSON.message==="导入模板不正确！")
+                    {
+                        $('.remove').click();
+                        top.layer.alert('数据模板不正确！', {icon: 6});
+                    }
+                }
+            });
+
+            $("#tgPreview").ligerGrid().set({
+                data: customersData
+            });
+            $("#tgPreview").ligerGrid().loadData();
+        });
+
+        $("#btnDownloadTemplate").on("click", function () {
+            location.href = baseUrl + "/downloadTemplate";
+        });
+
+        $("#btnImport").on("click", function () {
+            if ($("#fuChoose").val().length === 0) {
+                top.layer.alert('请先选择上次数据文件！');
+                return false;
+            }
+
+//            if($("select[name=keyColumn]").val()==="")
+//            {
+//                top.layer.alert('请设置唯一列标识！');
+//                return false;
+//            }
+
+            if( !$("input[name=insert]").prop('checked')&&!$("input[name=update]").prop('checked'))
+            {
+                top.layer.alert('请设置导入方式！');
+                return false;
+            }
+
+            var formData = new FormData($("#editForm")[0]);
+            $.ajax({
+                type: "Post",
+                url: baseUrl+"/importData",
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.success) {
+                        top.layer.alert('导入成功！',
+                            {
+                                closeBtn: 0
+                            },
+                            function () {
+                                top.layer.closeAll();
+                            });
+                    } else {
+                        top.layer.alert('导入失败！');
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    top.layer.alert('导入系统异常！');
+                }
+            });
+        });
+
+        $("#btnCancel").on("click", function () {
+            if (true) {
+                top.layer.confirm('导入进行中，确定关闭？', {
+                    btn: ['确定', '取消'] //按钮
+                }, function () {
+                    top.layer.closeAll()
+                }, function () {
+                    top.layer.close();
+                });
+            } else {
+                top.layer.closeAll()
+            }
+        });
+
+
+        $("#tgPreview").ligerGrid({
+            columns: $.parseJSON(columns),
+            pageSize: 10,
+            data: $.parseJSON(customersData),
+            width: '98%', height: '90%', rownumbers: true
+        });
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{editlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>变压器参数</title>
+</head>
+<body>
+<div class="main-container-inner" layout:fragment="edit-content">
+    <form id="editForm">
+        <div class="widget-body">
+            <div class="widget-main">
+                <div style="text-align: left; padding-left: 12px" >
+                    <span class="icon-warning-sign red" id="errorMsg" style="display:none"></span>
+                </div>
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                        <li class="active"><a data-toggle="tab" href="#home1">基本信息</a> </li>
+                        <li><a data-toggle="tab" href="#home2">主变信息</a></li>
+                        <li><a data-toggle="tab" href="#home3">接线信息</a> </li>
+                    </ul>
+                    <div class="tab-content">
+                        <!--基本信息-->
+                        <div id="home1" class="tab-pane  in active">
+                            <table>
+                                <tr>
+                                    <th class="th"> 变电站名称:</th>
+                                    <td class="td">
+                                        <input type="text" name="bdzName" th:value=${entity.bdzName} />
+                                        <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        电压等级(kV)：
+                                    </th>
+                                    <td class="td">
+                                        <select name="dydj" class="chosen-select">
+                                            <option th:each="voltage:${voltages}" th:value="${voltage.key}"
+                                                    th:text="${voltage.value}"
+                                                    th:selected="${voltage.key==entity.dydj}"></option>
+                                        </select>
+                                        <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        运维单位：
+                                    </th>
+                                    <td class="td">
+                                        <select name="ywdw" class="chosen-select">
+                                            <option th:each="ywdw:${ywdws}" th:value="${ywdw.key}"
+                                                    th:text="${ywdw.value}"
+                                                    th:selected="${ywdw.key==entity.ywdw}"></option>
+                                        </select>
+                                        <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                        所属区域：
+                                    <td class="td">
+                                        <select name="qyId" class="chosen-select">
+                                            <option th:each="qy:${qys}" th:value="${qy.key}"
+                                                    th:text="${qy.value}"
+                                                    th:selected="${qy.key==entity.qyId}"></option>
+                                        </select>
+                                    <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        供区类型：
+                                    <td class="td">
+                                        <select name="gqlx" class="chosen-select">
+                                            <option th:each="gqlx:${gqlxs}" th:value="${gqlx.key}"
+                                                    th:text="${gqlx.value}"
+                                                    th:selected="${gqlx.key==entity.gqlx}"></option>
+                                        </select>
+                                    <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        变电站形式：
+                                    <td class="td">
+                                        <select name="azxs" class="chosen-select">
+                                            <option th:each="azxs:${azxss}" th:value="${azxs.key}"
+                                                    th:text="${azxs.value}"
+                                                    th:selected="${azxs.key==entity.azxs}"></option>
+                                        </select>
+                                    <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                        供电区属性：
+                                    </th>
+                                    <td class="td">
+                                        <select name="gdqsx" class="chosen-select">
+                                            <option value="" th:selected="${entity.gdqsx==''}">---请选择---</option>
+                                            <option value="市辖" th:selected="${entity.gdqsx=='市辖'}">市辖</option>
+                                            <option value="县级" th:selected="${entity.gdqsx=='县级'}">县级</option>
+                                        </select>
+                                        <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        供电性质：
+                                    </th>
+                                    <td class="td">
+                                        <select name="gdxz" class="chosen-select">
+                                            <option value="" th:selected="${entity.gdqsx==''}">---请选择---</option>
+                                            <option value="直管直控" th:selected="${entity.gdxz=='直管直控'}">直管直控</option>
+                                            <option value="控股" th:selected="${entity.gdxz=='控股'}">控股</option>
+                                        </select>
+                                        <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                       断路器(个)：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="dlq" th:value=${entity.dlq}
+                                               onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                        变电站属性：
+                                    </th>
+                                    <td class="td">
+                                        <select name="syfs" class="chosen-select">
+                                            <option th:each="syfs:${syfss}" th:value="${syfs.key}"
+                                                    th:text="${syfs.value}"
+                                                    th:selected="${syfs.key==entity.syfs}"></option>
+                                        </select>
+                                        <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        城农网：
+                                    </th>
+                                    <td class="td">
+                                        <select name="cnw" class="chosen-select">
+                                            <option th:each="cnw:${cnws}" th:value="${cnw.key}"
+                                                    th:text="${cnw.value}"
+                                                    th:selected="${cnw.key==entity.cnw}"></option>
+                                        </select>
+                                        <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        高压配电装置类型：
+                                    </th>
+                                    <td class="td">
+                                        <select name="gypdzzlx" class="chosen-select">
+                                            <option th:each="gypdzzlx:${gypdzzlxs}" th:value="${gypdzzlx.key}"
+                                                    th:text="${gypdzzlx.value}"
+                                                    th:selected="${gypdzzlx.key==entity.gypdzzlx}"></option>
+                                        </select>
+                                        <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                        主变总容量(MVA)：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="zbzrl" th:value=${entity.zbzrl}
+                                               style=" width:180px;"
+                                               onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                        <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        是否满足N-1：
+                                    </th>
+                                    <td class="td">
+                                        <select name="n_1" class="chosen-select">
+                                            <option value="" th:selected="${entity.n_1==''}">---请选择---</option>
+                                            <option value="是" th:selected="${entity.n_1=='是'}">是</option>
+                                            <option value="否" th:selected="${entity.n_1=='否'}">否</option>
+                                        </select>
+                                        <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        电网结构：
+                                    </th>
+                                    <td class="td">
+                                        <select name="dwjg" class="chosen-select">
+                                            <option value="" th:selected="${entity.dwjg==''}">---请选择---</option>
+                                            <option value="单链接" th:selected="${entity.dwjg=='单链接'}">单链接</option>
+                                            <option value="单辐射" th:selected="${entity.dwjg=='单辐射'}">单辐射</option>
+                                            <option value="双辐射" th:selected="${entity.dwjg=='双辐射'}">双辐射</option>
+                                            <option value="单环网" th:selected="${entity.dwjg=='单环网'}">单环网</option>
+                                        </select>
+                                        <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                        投运时间：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="btysj" th:value=${entity.btysj}
+                                               class="Wdate" readonly="readonly" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+                                        <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        停运时间：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="etysj" th:value=${entity.etysj}
+                                               class="Wdate" readonly="readonly" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        运行状态：
+                                    </th>
+                                    <td class="td">
+                                        <select name="yxzt" class="chosen-select">
+                                            <option value="" th:selected="${entity.yxzt==''}">---请选择---</option>
+                                            <option value="运行" th:selected="${entity.yxzt=='运行'}">运行</option>
+                                            <option value="停运" th:selected="${entity.yxzt=='停运'}">停运</option>
+                                        </select>
+                                        <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                        经度：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="jd" th:value=${entity.jd}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        纬度：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="wd" th:value=${entity.wd}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        占地面积(公顷)：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="zdmj" th:value=${entity.zdmj}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                        变电站地址：
+                                    </th>
+                                    <td class="td" colspan="2">
+                                        <input type="text" name="dz" th:value=${entity.dz}
+                                               style=" width:300px;"/>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        备注：
+                                    </th>
+                                    <td class="td" colspan="2">
+                                        <textarea name="remark" th:text="${entity.remark}" style="height: 50px!important ; width:80%;"></textarea>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!--变压器-->
+                        <div id="home2" class="tab-pane">
+                            <table id="Table1" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th class=" th center">
+                                        主变编号
+                                    </th>
+                                    <th class="th center">
+                                        主变型号
+                                    </th>
+                                    <th class="th center">
+                                        容量(MVA)
+                                    </th>
+                                    <th class="th center">
+                                        投运时间
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="byq:${byqs}">
+                                    <td th:text="${byq.byqName}"></td>
+                                    <td th:text="${byq.mpxh}"></td>
+                                    <td th:text="${byq.bdrl}"></td>
+                                    <td th:text="${byq.btysj}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <tr>
+                                    <th class="th">
+                                    </th>
+                                    <th class="th" style="text-align: center">
+                                        高压侧
+                                    </th>
+                                    <th class="th" style="text-align: center">
+                                        中压侧
+                                    </th>
+                                    <th class="th" style="text-align: center">
+                                        低压侧
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                      电压等级（kV）：
+                                    </th>
+                                    <td class="td">
+                                        <select name="gycdydj" class="chosen-select">
+                                            <option th:each="voltage:${voltages}" th:value="${voltage.key}"
+                                                    th:text="${voltage.value}"
+                                                    th:selected="${voltage.key==entity.gycdydj}"></option>
+                                        </select>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <td class="td">
+                                        <select name="zycdydj" class="chosen-select">
+                                            <option th:each="voltage:${voltages}" th:value="${voltage.key}"
+                                                    th:text="${voltage.value}"
+                                                    th:selected="${voltage.key==entity.zycdydj}"></option>
+                                        </select>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <td class="td">
+                                        <select name="dycdydj" class="chosen-select">
+                                            <option th:each="voltage:${voltages}" th:value="${voltage.key}"
+                                                    th:text="${voltage.value}"
+                                                    th:selected="${voltage.key==entity.dycdydj}"></option>
+                                        </select>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                            主变台数(台)：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="byqsl" th:value=${entity.byqsl}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                    <th class="th">
+                                        主变总容量(MVA)：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="zbzrl" th:value=${entity.zbzrl}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                        容量构成(MVA)：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="rlgc" th:value=${entity.rlgc}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                        <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!--接线信息-->
+                        <div id="home3" class="tab-pane">
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>
+                                        高压侧主接线</h4>
+                                    <div class="widget-toolbar" style="line-height: 20px;">
+                                        <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                    </div>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <table>
+                                            <tr>
+                                                <th class="th">
+                                                    1#主变高压侧：
+                                                </th>
+                                                <td class="td">
+                                                    <select name="gyczjx1" class="chosen-select">
+                                                        <option th:each="zjx:${zjxs}" th:value="${zjx.key}"
+                                                                th:text="${zjx.value}"
+                                                                th:selected="${zjx.key==entity.gyczjx1}"></option>
+                                                    </select>
+                                                </td>
+                                                <th class="th">
+                                                    2#主变高压侧：
+                                                </th>
+                                                <td class="td">
+                                                    <select name="gyczjx2" class="chosen-select">
+                                                        <option th:each="zjx:${zjxs}" th:value="${zjx.key}"
+                                                                th:text="${zjx.value}"
+                                                                th:selected="${zjx.key==entity.gyczjx2}"></option>
+                                                    </select>
+                                                </td>
+                                                <th class="th">
+                                                    3#主变高压侧：
+                                                </th>
+                                                <td class="td">
+                                                    <select name="gyczjx3" class="chosen-select">
+                                                        <option th:each="zjx:${zjxs}" th:value="${zjx.key}"
+                                                                th:text="${zjx.value}"
+                                                                th:selected="${zjx.key==entity.gyczjx3}"></option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>
+                                        中压侧主接线</h4>
+                                    <div class="widget-toolbar" style="line-height: 20px;">
+                                        <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                    </div>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <table>
+                                            <tr>
+                                                <th class="th">
+                                                    1#主变中压侧：
+                                                </th>
+                                                <td class="td">
+                                                    <select name="zyczjx1" class="chzn-select">
+                                                        <option th:each="zjx:${zjxs}" th:value="${zjx.key}"
+                                                                th:text="${zjx.value}"
+                                                                th:selected="${zjx.key==entity.zyczjx1}"></option>
+                                                    </select>
+                                                </td>
+                                                <th class="th">
+                                                    2#主变中压侧：
+                                                </th>
+                                                <td class="td">
+                                                    <select name="zyczjx2" class="chzn-select">
+                                                        <option th:each="zjx:${zjxs}" th:value="${zjx.key}"
+                                                                th:text="${zjx.value}"
+                                                                th:selected="${zjx.key==entity.zyczjx2}"></option>
+                                                    </select>
+                                                </td>
+                                                <th class="th">
+                                                    3#主变中压侧：
+                                                </th>
+                                                <td class="td">
+                                                    <select name="zyczjx3" class="chzn-select">
+                                                        <option th:each="zjx:${zjxs}" th:value="${zjx.key}"
+                                                                th:text="${zjx.value}"
+                                                                th:selected="${zjx.key==entity.zyczjx3}"></option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>
+                                        低压侧主接线</h4>
+                                    <div class="widget-toolbar" style="line-height: 20px;">
+                                        <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                    </div>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <table>
+                                            <tr>
+                                                <th class="th">
+                                                    1#主变低压侧：
+                                                </th>
+                                                <td class="td">
+                                                    <select name="dyczjx1" class="chzn-select">
+                                                        <option th:each="zjx:${zjxs}" th:value="${zjx.key}"
+                                                                th:text="${zjx.value}"
+                                                                th:selected="${zjx.key==entity.dyczjx1}"></option>
+                                                    </select>
+                                                </td>
+                                                <th class="th">
+                                                    2#主变低压侧：
+                                                </th>
+                                                <td class="td">
+                                                    <select name="dyczjx2" class="chzn-select">
+                                                        <option th:each="zjx:${zjxs}" th:value="${zjx.key}"
+                                                                th:text="${zjx.value}"
+                                                                th:selected="${zjx.key==entity.dyczjx2}"></option>
+                                                    </select>
+                                                </td>
+                                                <th class="th">
+                                                    3#主变低压侧：
+                                                </th>
+                                                <td class="td">
+                                                    <select name="dyczjx3" class="chzn-select">
+                                                        <option th:each="zjx:${zjxs}" th:value="${zjx.key}"
+                                                                th:text="${zjx.value}"
+                                                                th:selected="${zjx.key==entity.dyczjx3}"></option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display: inline-block ; margin: 10px auto;">
+            <input id="hidId" name="id" th:value=${entity.id} type="hidden"/>
+            <button id="btnSave" type="button" class="btn btn-primary btn-sm"><i class="icon-save bigger-110"></i>保存</button>
+            &nbsp; &nbsp; &nbsp;
+            <button id="btnCancel" type="button" class="btn btn-sm"><i class="icon-undo bigger-110"></i>取消</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

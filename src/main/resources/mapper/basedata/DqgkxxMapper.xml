@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kylin.electricassistsys.mapper.basedata.DqgkxxMapper">
+    <select id="getEntitiesByCondition" parameterType="com.kylin.electricassistsys.entity.basedata.DqgkxxEntity"  resultType="com.kylin.electricassistsys.entity.basedata.DqgkxxEntity">
+        SELECT Dqgkxx.*,D1.name AS qyname FROM Dqgkxx
+        LEFT JOIN PowerSupplyZone D1 ON Dqgkxx."qyId" = D1."ID" WHERE 1=1
+        <if test="qyid!= null and qyid != '' ">
+            AND Dqgkxx."qyId"=#{qyid}
+        </if>
+        <if test="gqlx!= null and gqlx != '' ">
+            AND Dqgkxx."gqlx"=#{gqlx}
+        </if>
+        <if test="year!= null and year != '' ">
+            AND Dqgkxx."year"=#{year}
+        </if>
+    </select>
+</mapper>

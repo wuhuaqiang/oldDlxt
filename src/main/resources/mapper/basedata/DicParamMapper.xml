@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kylin.electricassistsys.mapper.basedata.DicParamMapper">
+    <!--<select id="getAll" parameterType="int" resultType="com.kylin.electricassistsys.entity.basedata.DicParamEntity">-->
+        <!--select * from DICPARAM WHERE "TYPE"= #{dicParamType}-->
+    <!--</select>-->
+
+    <!--<insert id="add" parameterType="com.kylin.electricassistsys.entity.basedata.DicParamEntity">-->
+        <!--INSERT INTO DICPARAM ("ID","NAME","TYPE","REMARK",STATUS)-->
+        <!--VALUES   (#{id},#{name},#{type},#{remark},#{status})-->
+    <!--</insert>-->
+
+    <!--<update id="update" parameterType="com.kylin.electricassistsys.entity.basedata.DicParamEntity">-->
+        <!--UPDATE DICPARAM SET-->
+        <!--"NAME" = #{name},-->
+        <!--"TYPE" = #{type},-->
+        <!--"REMARK"= #{remark},-->
+        <!--"STATUS"= #{status}-->
+        <!--WHERE "ID" = #{id}-->
+    <!--</update>-->
+
+    <!--<select id="getEntityById" parameterType="String" resultType="com.kylin.electricassistsys.entity.basedata.DicParamEntity">-->
+        <!--select * from DICPARAM WHERE "ID" = #{id}-->
+    <!--</select>-->
+
+    <!--<delete id="deleteById" parameterType="String">-->
+        <!--DELETE FROM DICPARAM WHERE "ID" = #{id}-->
+    <!--</delete>-->
+
+    <!--<delete id="deleteByIds" parameterType="String">-->
+        <!--DELETE FROM DICPARAM WHERE "ID" IN-->
+        <!--<foreach item="item" index="index" collection="array" open="(" separator="," close=")">-->
+            <!--#{item}-->
+        <!--</foreach>-->
+    <!--</delete>-->
+
+
+    <!--<select id="getByNameAndType"  resultType="com.kylin.electricassistsys.entity.basedata.DicParamEntity">-->
+        <!--select * from DICPARAM WHERE "NAME" LIKE CONCAT(CONCAT('%', #{name}), '%') AND "TYPE"= #{dicParamType}-->
+    <!--</select>-->
+</mapper>

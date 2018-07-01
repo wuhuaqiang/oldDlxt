@@ -1,0 +1,174 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{editlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/security.js}"></script>
+    <script th:inline="javascript">
+        var isSuccess = false;
+        /*<![CDATA[*/
+        $(function () {
+            $(".chosen-select").chosen();
+
+            $("#btnCancel1").click(function () {
+                parent.$(".layui-layer-close").click();
+            });
+
+            $("#btnSave1").click(function () {
+                $("#errorMsg").hide();
+                $(".errorMsgSpan").html("");
+                $('.errorMsgSpan').tooltip('destroy');
+                var modulus = [[${modulus}]];
+                var exponent = [[${exponent}]];
+                //通过模和公钥参数获取公钥
+                var key = new RSAUtils.getKeyPair(exponent, "", modulus);
+                //颠倒密码的顺序，要不然后解密后会发现密码顺序是反的
+                var password = $("input[name='password']").val();
+                var orgPassword = $("input[name='orgPassword']").val();
+                var rePassWord =  $("input[name='rePassword']").val();
+
+                //对密码进行加密传输
+                var encrypedPassword = RSAUtils.encryptedString(key,password);
+                var encrypedOrgPassword= RSAUtils.encryptedString(key,orgPassword);
+                var encrypedRePassWord = RSAUtils.encryptedString(key,rePassWord);
+
+                var postData ="password="+encrypedPassword+"&orgPassword="+encrypedOrgPassword+"&rePassword="+encrypedRePassWord+"&username="+$("input[name='username']").val();
+                $.ajax({
+                    type: "Post",
+                    url: "/system/user/pwd/save",
+                    data:postData,
+                    success: function (data) {
+                        if (data.success) {
+                            isSuccess = true;
+                            top.layer.alert('保存成功！',
+                                {
+                                    closeBtn: 0
+                                },
+                                function (index) {
+                                    top.layer.close(index);
+                                    parent.$(".layui-layer-close").click();
+                                });
+                        } else {
+                            if (data.message !== "") {
+                                $("input[name='password']").val("");
+                                $("input[name='orgPassword']").val("");
+                                $("input[name='rePassword']").val("");
+                                $("#errorMsg").show();
+                                $("#errorMsg").text(data.message);
+                            }
+
+                            if (data.fieldErrors !== null) {
+                                $.each(data.fieldErrors, function (idx, obj) {
+                                    var fieldName = obj.field;
+                                    $("[name=" + fieldName + "]").parent().find('>span:last').html(obj.defaultMessage);
+                                });
+                                $("[limit]").limit();
+                                $(".errorMsgSpan").tooltip({container: 'body'}).tooltip('show');
+                            }
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        if(XMLHttpRequest.status===401) {
+                            top.layer.alert('登录超时或无权执行该操作，请重新登录！',
+                                {
+                                    closeBtn: 0
+                                },
+                                function () {
+                                    top.layer.closeAll();
+                                    window.parent.location = "/login";
+                                });
+                        }
+                        else {
+                            $("#errorMsg").show();
+                            $("#errorMsg").text("保存出错,稍后重试！");
+                        }
+                    }
+                });
+            });
+        });
+        /*]]>*/
+
+        function callbackdata () {
+            return isSuccess;
+        }
+    </script>
+</head>
+<body>
+<div class="main-container-inner" layout:fragment="edit-content">
+    <form id="editForm" autocomplete="off">
+        <div class="widget-body">
+            <div class="widget-main">
+                <div style="text-align: left; padding-left: 12px">
+                    <span class="icon-warning-sign red" id="errorMsg" style="display:none"></span>
+                </div>
+                <table border="1" width="100%">
+                    <tr>
+                        <td class="th">
+                            登录账号：
+                        </td>
+                        <td class="td" colspan="3">
+                            <input type="text" name="username" th:value="${username}" maxlength="20"
+                                   readonly="readonly"/>
+                            <span style="color: red;">*</span><span data-toggle="tooltip"
+                                                                    data-placement="bottom" title=""
+                                                                    limit="6"
+                                                                    class="errorMsgSpan tooltip-show"
+                                                                    style="color: red;text-decoration:none;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th">
+                            原密码：
+                        </td>
+                        <td class="td">
+                            <input type="password" name="orgPassword" maxlength="20">
+                            <span style="color: red;">*</span><span data-toggle="tooltip"
+                                                                    data-placement="bottom" title=""
+                                                                    limit="6"
+                                                                    class="errorMsgSpan tooltip-show"
+                                                                    style="color: red;text-decoration:none;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th">
+                            新密码：
+                        </td>
+                        <td class="td">
+                            <input type="password" name="password" maxlength="20"/>
+                            <span style="color: red;">*</span><span data-toggle="tooltip"
+                                                                    data-placement="bottom" title=""
+                                                                    limit="6"
+                                                                    class="errorMsgSpan tooltip-show"
+                                                                    style="color: red;text-decoration:none;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th" width="40px">
+                            确认密码：
+                        </td>
+                        <td class="td">
+                            <input type="password" name="rePassword" maxlength="20"/>
+                            <span style="color: red;">*</span><span data-toggle="tooltip"
+                                                                    data-placement="bottom" title=""
+                                                                    limit="6"
+                                                                    class="errorMsgSpan tooltip-show"
+                                                                    style="color: red;text-decoration:none;"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div style="display: inline-block ; margin: 40px auto 10px auto;">
+            <button id="btnSave1" type="button" class="btn btn-primary btn-sm"><i
+                    class="icon-save bigger-110"></i>保存
+            </button>
+            &nbsp; &nbsp; &nbsp;
+            <button id="btnCancel1" type="button" class="btn  btn-sm"><i
+                    class="icon-undo bigger-110"></i>取消
+            </button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

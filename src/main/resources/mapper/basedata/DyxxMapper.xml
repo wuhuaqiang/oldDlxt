@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kylin.electricassistsys.mapper.basedata.DyxxMapper">
+    <select id="getEntitiesByCondition" parameterType="com.kylin.electricassistsys.entity.basedata.DyxxEntity"  resultType="com.kylin.electricassistsys.entity.basedata.DyxxEntity">
+        SELECT DYXX.*,D1.NAME AS qyname,D2.NAME AS gqlxname,D3.NAME AS dydjName,D4.NAME AS dclxName FROM DYXX
+        LEFT JOIN POWERSUPPLYZONE D1 ON LOWER(DYXX."QYID") = LOWER(D1."ID")
+        LEFT JOIN DICPARAM D3  ON LOWER(DYXX."DYDJ") = LOWER(D3."ID") AND D3."TYPE"=2
+        LEFT JOIN DICPARAM D4  ON LOWER(DYXX."DCLX") = LOWER(D4."ID") AND D4."TYPE"=19
+        LEFT JOIN DICPARAM D2  ON LOWER(DYXX."GQLX") = LOWER(D2."ID") AND D2."TYPE"=3 WHERE 1=1
+        <if test="qyId!= null and qyId != '' ">
+            AND LOWER(DYXX."QYID")=LOWER(#{qyId})
+        </if>
+        <if test="gqlx!= null and gqlx != '' ">
+            AND LOWER(DYXX."GQLX")=LOWER(#{gqlx})
+        </if>
+        <if test="dydj!= null and dydj != '' ">
+            AND LOWER(DYXX."DYDJ")=LOWER(#{dydj})
+        </if>
+        <if test="dclx!= null and dclx != '' ">
+            AND LOWER(DYXX."DCLX")=LOWER(#{dclx})
+        </if>
+        <if test="dcmc!= null and dcmc != '' ">
+            AND DYXX."DCMC"=#{dcmc}
+        </if>
+    </select>
+</mapper>

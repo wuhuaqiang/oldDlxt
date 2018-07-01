@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{listlayout}">
+<head>
+    <title>变电站统计报表</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{/lib/ligerUI/skins/Aqua/css/ligerui-all.css}">
+    <script th:src="@{/lib/ligerUI/js/core/base.js}"></script>
+    <!--<script th:src="@{/lib/ligerUI/js/ligerui.min.js}"></script>-->
+    <script th:src="@{/lib/ligerUI/js/plugins/ligerGrid.js}"></script>
+    <script th:src="@{/lib/ligerUI/js/plugins/ligerDrag.js}"></script>
+    <script th:src="@{/lib/ligerUI/js/plugins/ligerResizable.js}"></script>
+    <script th:inline="javascript">
+        $(function () {
+            /*<![CDATA[*/
+            var baseUrl = [[${autoBuilderParam.mapUrl}]];
+            $(".chosen-select").chosen();
+
+            $("#grid").ligerGrid({
+                columns: [
+                    { display: '所属公司', name: 'ywdwName', minWidth: 60, width: 100 },
+                    { display: '线路名称', name: 'xlmc', minWidth: 60, width: 180 ,frozen:true},
+                    { display: '电压等级', name: 'dydj', minWidth: 60, width: 100 },
+                    { display: '线路属性', name: 'syfs', minWidth: 60, width: 100 },
+                    { display: '所处供区名称', name: 'qyName', minWidth: 60, width: 100 },
+                    { display: '所处供电类别', name: 'gqlx', minWidth: 60, width: 100 },
+                    { display: '投产年限', name: 'tysj', minWidth: 60, width: 100 },
+                    { display: '城农网', name: 'cnw', minWidth: 60, width: 100 },
+                    { display: 'CT变比', name: 'ctbb', minWidth: 60, width: 100 },
+                    { display: '变电站', name: 'bdzName', minWidth: 60, width: 100 },
+                    { display: '敷设方式', name: 'fsfs', minWidth: 60, width: 100 },
+                    { display: '全线路长度(km)', columns:
+                        [
+                            { display: '架空绝缘线', name: 'qxjkjyx', width: 100 },
+                            { display: '架空裸导线', name: 'qxjklx', width: 100},
+                            { display: '电缆', name: 'qxdl', width: 100 },
+                            { display: '总长', name: 'qxzc', width: 100 }
+                        ]
+                    },
+                    { display: '主干线长度(km)', columns:
+                        [
+                            { display: '架空绝缘线', name: 'zgjkjyx', width: 100 },
+                            { display: '架空裸导线', name: 'zgjklx', width: 100 },
+                            { display: '电缆', name: 'dlzgx', width: 100 },
+                            { display: '总长', name: 'zczgx', width: 100 }
+                        ]
+                    }
+                    ,
+                    { display: '配变数', columns:
+                        [
+                            { display: '公变台数', name: 'gbts', width: 100 },
+                            { display: '专变台数', name: 'zbts', width: 100 },
+                            { display: '总数', name: 'zts', width: 100 }
+                        ]
+                    }
+                    ,
+                    { display: '配变容量', columns:
+                        [
+                            { display: '公变容量', name: 'gbrl', width: 100 },
+                            { display: '专变容量', name: 'zbrl', width: 100},
+                            { display: '总数', name: 'zrl', width: 100}
+                        ]
+                    }
+                ], pageSize: 20, checkbox: true,
+                allowHideColumn: false,
+                url: "/facility/zyxlxx/statemetLoad",
+                width: '98%', height: '100%', rownumbers: true
+            });
+
+            $("#btnSearch").click(function () {
+                var data = $('#queryForm').serialize();
+                $("#grid").ligerGrid().set({
+                    url:"/facility/zyxlxx/statemetLoad?"+data,
+                });
+                $("#grid").ligerGrid().loadData();
+            });
+
+            $("#btnExport").click(function () {
+                var data = $("#queryForm").serialize();
+                location.href = baseUrl + "/exportExcel?" + data;
+            });
+        });
+        /*]]>*/
+    </script>
+</head>
+<body>
+<div class="page-content" style=" padding: 0px 8px 0px 1px;" layout:fragment="list-content">
+    <div id="operDiv" class="page-header" style="padding: 0px; padding-bottom: 4px;" th:utext="${queryForm}">
+    </div>
+    <div class="row" style="margin-top: -8px;">
+        <div class="col-xs-12">
+            <div id="grid" style="margin:0; padding:0"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

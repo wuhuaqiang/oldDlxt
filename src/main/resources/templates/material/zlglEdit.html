@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{editlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>变压器参数</title>
+</head>
+<body>
+<div class="main-container-inner" layout:fragment="edit-content">
+    <form id="editForm" method="POST" enctype="multipart/form-data">
+        <div class="widget-body">
+            <div class="widget-main">
+                <table>
+                    <tr>
+                        <td class="th">
+                            名称：
+                        </td>
+                        <td class="td">
+                            <input type="text" name="zlName" th:value=${entity.zlName} />
+                            <span>*</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th">
+                            类型：
+                        </td>
+                        <td class="td">
+                            <select name="zlType" class="chosen-select" >
+                                <option th:each="zllx:${zllxs}" th:value="${zllx.key}"
+                                        th:text="${zllx.value}"
+                                        th:selected="${zllx.key==entity.zlType}"></option>
+                            </select>
+                            <span>*</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th">
+                            上传文件：
+                        </td>
+                        <td class="td">
+                            <input type="file" name="file" id="file" style="width: 220px!important;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th">
+                            <p>备注：</p>
+                        </td>
+                        <td class="td">
+                            <textarea name="remark" th:text="${entity.remark}" style="width: 90%; height: 60px!important;"></textarea>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div style="display: inline-block ; margin: 10px auto;">
+            <input id="hidId" name="id" th:value=${entity.id} type="hidden"/>
+            <button id="btnSave" type="button" class="btn btn-primary btn-sm"><i class="icon-save bigger-110"></i>保存</button>
+            &nbsp; &nbsp; &nbsp;
+            <button id="btnCancel" type="button" class="btn btn-sm"><i class="icon-undo bigger-110"></i>取消</button>
+        </div>
+    </form>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnCancel").click(function () {
+                top.layer.closeAll();
+            })
+
+            $('#file').ace_file_input({
+                no_file: '上传数据文件不能大于400M ',
+                btn_choose: '选择',
+                btn_change: '替换',
+                droppable: true,
+                thumbnail: true,
+                onchange: function () {
+                }
+            });
+
+            $("#btnSave").click(function () {
+                var formData = new FormData($( "#editForm" )[0]);
+                $.ajax({
+                    type: "Post",
+                    url: "/material/zlgl/upload",
+                    data: formData,//$("#editForm").serialize(),
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        if (data.success) {
+                            top.layer.alert('保存成功！',
+                                {
+                                    closeBtn: 0
+                                },
+                                function () {
+                                    top.layer.closeAll();
+                                });
+                        } else {
+                            top.layer.alert(data.message);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        top.layer.alert("保存出错！");
+                    }
+                });
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

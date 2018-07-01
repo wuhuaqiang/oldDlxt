@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{editlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>变压器参数</title>
+</head>
+<body>
+<div class="main-container-inner" layout:fragment="edit-content">
+    <form id="editForm">
+        <div class="widget-body">
+            <div class="widget-main">
+                <div style="text-align: left; padding-left: 12px" >
+                    <span class="icon-warning-sign red" id="errorMsg" style="display:none"></span>
+                </div>
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                        <li class="active"><a data-toggle="tab" href="#home1">基本信息</a> </li>
+                    </ul>
+                    <div class="tab-content">
+                        <!--基本信息-->
+                        <div id="home1" class="tab-pane  in active">
+                            <div class="widget-box home2">
+                                <div class="widget-header">
+                                    <h4>基础信息</h4>
+                                    <div class="widget-toolbar" style="line-height: 20px;">
+                                        <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                    </div>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <table>
+                                            <tr>
+                                                <th class="th"> 年份:</th>
+                                                <td class="td">
+                                                    <input type="text" name="nf" th:value=${entity.nf} class="Wdate" readonly="readonly" onclick="WdatePicker({dateFmt:'yyyy',minDate:'1900',maxDate:'2099'})" />
+                                                    <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                                <th class="th">
+                                                    运维单位：
+                                                </th>
+                                                <td class="td">
+                                                    <select name="ywdw" class="chosen-select">
+                                                        <option th:each="ywdw:${ywdws}" th:value="${ywdw.key}"
+                                                                th:text="${ywdw.value}"
+                                                                th:selected="${ywdw.key==entity.ywdw}"></option>
+                                                    </select>
+                                                    <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                                <th class="th">
+                                                    所属区域：
+                                                <td class="td">
+                                                    <select name="qyId" class="chosen-select">
+                                                        <option th:each="qy:${qys}" th:value="${qy.key}"
+                                                                th:text="${qy.value}"
+                                                                th:selected="${qy.key==entity.qyId}"></option>
+                                                    </select>
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="th">
+                                                    供区类型：
+                                                <td class="td">
+                                                    <select name="gqlx" class="chosen-select">
+                                                        <option th:each="gqlx:${gqlxs}" th:value="${gqlx.key}"
+                                                                th:text="${gqlx.value}"
+                                                                th:selected="${gqlx.key==entity.gqlx}"></option>
+                                                    </select>
+                                                <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                                <th class="th">
+                                                    敷设方式：
+                                                </th>
+                                                <td class="td">
+                                                    <select name="fsfs" class="chosen-select">
+                                                        <option th:each="fsfs:${fsfss}" th:value="${fsfs.key}"
+                                                                th:text="${fsfs.value}"
+                                                                th:selected="${fsfs.key==entity.fsfs}"></option>
+                                                    </select>
+                                                    <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-box home2">
+                                <div class="widget-header">
+                                    <h4>
+                                        参数信息</h4>
+                                    <div class="widget-toolbar" style="line-height: 20px;">
+                                        <a href="#" data-action="collapse"><i class="icon-chevron-up"></i></a>
+                                    </div>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <table>
+                                            <tr>
+                                                <th class="th">
+                                                    裸导线条数(条)：
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="ldxts" th:value=${entity.ldxts}
+                                                           onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                                <th class="th">
+                                                    绝缘线条数(条)：
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="jyxts" th:value=${entity.jyxts}
+                                                           onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                                <th class="th">
+                                                    线路总条数(条)：
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="xlts" th:value=${entity.xlts} readonly="readonly"
+                                                           onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="th">
+                                                    裸导线长度(km)：
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="ldxcd" th:value=${entity.ldxcd}
+                                                           onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                                <th class="th">
+                                                    绝缘线长度(km)：
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="jyxcd" th:value=${entity.jyxcd}
+                                                           onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                                <th class="th">
+                                                    线路总长度(km)：
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="xlcd" th:value=${entity.xlcd} readonly="readonly"
+                                                           onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="th">
+                                                    分段数：
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="fds" th:value=${entity.fds}
+                                                           onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                                <th class="th">
+                                                    分段长度(km)：
+                                                </th>
+                                                <td class="td">
+                                                    <input type="text" name="fdcd" th:value=${entity.fdcd}
+                                                           onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                                <th class="th">
+                                                    电缆型号：
+                                                </th>
+                                                <td class="td">
+                                                    <select name="dlxh" class="chosen-select">
+                                                        <option th:each="dlxh:${dlxhs}" th:value="${dlxh.key}"
+                                                                th:text="${dlxh.value}"
+                                                                th:selected="${dlxh.key==entity.dlxh}"></option>
+                                                    </select>
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="th">
+                                                    备注：
+                                                </th>
+                                                <td class="td" colspan="3">
+                                                     <textarea name="remark" th:text="${entity.remark}"
+                                                               style="width: 80%; height: auto!important;"></textarea>
+                                                    <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display: inline-block ; margin: 10px auto;">
+            <input id="hidId" name="id" th:value=${entity.id} type="hidden"/>
+            <button id="btnSave" type="button" class="btn btn-primary btn-sm"><i class="icon-save bigger-110"></i>保存</button>
+            &nbsp; &nbsp; &nbsp;
+            <button id="btnCancel" type="button" class="btn btn-sm"><i class="icon-undo bigger-110"></i>取消</button>
+        </div>
+    </form>
+    <script type="text/javascript">
+        $(function () {
+            $("input[name='ldxts'],input[name='jyxts']").on("change",function () {
+                $("input[name='xlts']").val(parseInt($("input[name='ldxts']").val())+parseInt($("input[name='jyxts']").val()));
+            });
+
+            $("input[name='ldxcd'],input[name='jyxcd']").on("change",function () {
+                $("input[name='xlcd']").val(parseFloat($("input[name='ldxcd']").val())+parseFloat($("input[name='jyxcd']").val()));
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

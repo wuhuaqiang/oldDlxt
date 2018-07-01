@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{editlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>地区概况编辑</title>
+</head>
+<body>
+<div class="main-container-inner" layout:fragment="edit-content">
+    <form id="eidtForm">
+        <div class="widget-body">
+            <div class="widget-main">
+                    <div class="tab-content">
+                            <table>
+                                <tr>
+                                    <th class="th">
+                                        区域：
+                                    </th>
+                                    <td class="td">
+                                        <select name="qyid" class="chzn-select ddlGqlx" style="width: 180px">
+                                            <option th:each="qyMap:${qyMaps}" th:value="${qyMap.key}"
+                                                    th:text="${qyMap.value}"
+                                                    th:selected="${qyMap.key==entity.qyid}"></option>
+                                        </select>
+                                    </td>
+                                    <th class="th">
+                                        供区类型：
+                                    </th>
+                                    <td class="td">
+                                        <select name="gqlx" class="chzn-select ddlGqlx" style="width: 180px">
+                                            <option th:each="gqlx:${gqlxs}" th:value="${gqlx.id}"
+                                                    th:text="${gqlx.name}"
+                                                    th:selected="${gqlx.id==entity.gqlx}"></option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                        土地面积(平方公里)：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="tdmj" th:value=${entity.tdmj}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                    </td>
+                                    <th class="th">
+                                        建成区面积(平方公里)：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="jcqmj" th:value=${entity.jcqmj}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                        经度(度)：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="jd" th:value=${entity.jd}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                    </td>
+                                    <th class="th">
+                                        纬度(度)：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="wd" th:value=${entity.wd}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                        城市人口(万人)：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="csrk" th:value=${entity.csrk}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                    </td>
+                                    <th class="th">
+                                        农村人口(万人)：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="ncrk" th:value=${entity.ncrk}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th"> 年份:</th>
+                                    <td class="td">
+                                        <input type="text" name="year" th:value=${entity.year} style=" width:180px;"/>
+                                    </td>
+                                    <th class="th">
+                                        年平均气温(℃)：
+                                    </th>
+                                    <td class="td" colspan="3">
+                                        <input type="text" name="npjqw" th:value=${entity.npjqw}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="th">
+                                        平均最高气温(℃)：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="pjzgqw" th:value=${entity.pjzgqw}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                    </td>
+                                    <th class="th">
+                                        平均最低气温(℃)：
+                                    </th>
+                                    <td class="td">
+                                        <input type="text" name="pjzdqw" th:value=${entity.pjzdqw}
+                                               style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                               onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                                    </td>
+                                </tr>
+                            </table>
+                    </div>
+            </div>
+        </div>
+        <div style="display: inline-block ; margin: 10px auto;">
+            <input id="hidId" name="id" th:value=${entity.id} type="hidden"/>
+            <button id="btnSave" type="button" class="btn btn-info"><i class="icon-save bigger-110"></i>保存</button>
+            &nbsp; &nbsp; &nbsp;
+            <button id="btnCancel" type="button" class="btn"><i class="icon-undo bigger-110"></i>取消</button>
+        </div>
+    </form>
+    <script type="text/javascript">
+        $(function () {
+            $("input").on("onkeyup", function () {
+                if (isNaN(this.value)) {
+                    execCommand('undo');
+                }
+            }).on("onafterpaste", function () {
+                if (isNaN(this.value))
+                    execCommand('undo');
+            });
+
+            $("#btnCancel").click(function () {
+                top.layer.closeAll();
+            })
+
+            $("#btnSave").click(function () {
+                $.ajax({
+                    type: "Post",
+                    url: "/basedata/dqgkxx/save",
+                    data: $("#eidtForm").serialize(),
+                    success: function (data) {
+                        if (data.sucess) {
+                            top.layer.alert('保存成功！',
+                                {
+                                    closeBtn: 0
+                                },
+                                function () {
+                                    top.layer.closeAll();
+                                });
+                        } else {
+                            top.layer.alert('保存失败！');
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        top.layer.alert("保存出错！");
+                    }
+                });
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

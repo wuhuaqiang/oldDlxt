@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}"/>
+    <!--[if IE 7]>
+    <link rel="stylesheet" th:href="@{/css/font-awesome-ie7.min.css}"/>
+    <![endif]-->
+    <!-- page specific plugin styles -->
+    <link rel="stylesheet" th:href="@{/css/jquery-ui-1.10.3.custom.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/jquery.gritter.css}"/>
+    <link th:href="@{/lib/jquery-easyui-1.5.3/themes/default/easyui.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/lib/jquery-easyui-1.5.3/themes/icon.css}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/lib/jqGrid/css/ui.jqgrid.css}">
+    <link rel="stylesheet" th:href="@{/css/chosen.css}">
+    <link rel="stylesheet" th:href="@{/css/datepicker.css}">
+    <!-- fonts -->
+    <!-- ace styles -->
+    <link rel="stylesheet" th:href="@{/skins/default/contextmenu.css}"/>
+    <link rel="stylesheet" th:href="@{/css/ace.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/ace-fonts.css}"/>
+    <link rel="stylesheet" th:href="@{/css/ace-rtl.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/ace-skins.min.css}"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" th:href="@{/css/ace-ie.min.css}"/>
+    <![endif]-->
+
+    <!-- ace settings handler -->
+    <script src="../assets/js/ace-extra.min.js" th:src="@{/js/ace-extra.min.js}"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script th:src="@{/js/html5shiv.js}"></script>
+    <script th:src="@{/js/respond.min.js}"></script>
+    <![endif]-->
+    <script th:src="@{/js/jquery-2.0.3.min.js}" type="text/javascript"></script>
+    <!--[if IE]>
+    <script type="text/javascript">
+        window.jQuery || document.write("<script th:src='@{/js/jquery-1.10.2.min.js}'>" + "<" + "/script>");
+    </script>
+    <![endif]-->
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/typeahead-bs2.min.js}"></script>
+    <!-- page specific plugin scripts -->
+    <!--[if lte IE 8]>
+    <script th:src="@{/js/excanvas.min.js}"></script>
+    <![endif]-->
+
+    <script th:src="@{/js/jquery-ui-1.10.3.custom.min.js}"></script>
+    <script th:src="@{/js/jquery.ui.touch-punch.min.js}"></script>
+    <script th:src="@{/js/chosen.jquery.min.js}"></script>
+    <script th:src="@{/js/bootbox.min.js}"></script>
+    <script th:src="@{/js/jquery.gritter.min.js}"></script>
+    <script th:src="@{/js/spin.min.js}"></script>
+    <!-- ace scripts -->
+    <script th:src="@{/js/ace-elements.min.js}"></script>
+    <script th:src="@{/js/ace.min.js}"></script>
+    <script th:src="@{/js/contextmenu.js}" type="text/javascript"></script>
+    <script th:src="@{/lib/layer/layer.js}" type="text/javascript"></script>
+    <script th:src="@{/lib/jqGrid/js/jquery.jqGrid.min.js}"></script>
+    <script th:src="@{/lib/jqGrid/js/i18n/grid.locale-cn.js}"></script>
+    <script th:src="@{/js/kylin-jqGrid-tool.js}"></script>
+</head>
+<body>
+<div class="main-container" id="main-container" style="width: 99%">
+    <div class="main-container-inner">
+        <div class="page-content" style=" padding: 0px 8px 0px 1px;">
+            <div id="operDiv" class="page-header" style="padding: 0px; padding-bottom: 4px;" th:utext="${queryForm}">
+            </div>
+            <div class="row" style="margin-top: -8px;">
+                <div class="col-xs-12">
+                    <table id="grid-table">
+                    </table>
+                    <div id="grid-pager">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" th:utext="${jGrid}">
+</script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function authorityFunction(id) {
+        var url = "/system/menu/roleSetAuthority?roleId="+id;
+        top.layer.open({
+            type: 2,
+            title: "设置角色权限",
+            shadeClose: false,
+            shade: [0.2, '#393D49'],
+            maxmin: true, //开启最大化最小化按钮
+            area: ["900px", "600px"],
+            content: url,
+        });
+    }
+
+    var baseUrl = [[${autoBuilderParam.mapUrl}]];
+    var layH = [[${autoBuilderParam.layH}]];
+    var layW = [[${autoBuilderParam.layW}]];
+    var title = [[${autoBuilderParam.title}]];
+    function addFunction() {
+        var url = baseUrl + "/add";
+        editMethod(url, layW, layH, "添加" + title, false);
+    }
+
+    function editFunction(id) {
+        var url = baseUrl + "/modify?id=" + id;
+        editMethod(url, layW, layH, "修改" + title, false);
+    }
+
+    function deleteFunction(ids) {
+        var url = baseUrl + "/delete";
+        deleteMethod(url, ids);
+    }
+
+    function reloadFunction() {
+        var url = baseUrl + "/query";
+        var data = $("#queryForm").serialize();
+        reloadMethod(url, data);
+    }
+
+    $(function () {
+        $(".chosen-select").chosen();
+
+        $("#btnSearch").click(function () {
+            reloadFunction();
+        });
+
+        $("#btnAdd").click(function () {
+            addFunction();
+        });
+
+        $("#btnExport").click(function () {
+            location.href = baseUrl + "/exportExcel?" + $("#queryForm").serialize();
+        });
+
+        $("#btnImport").click(function () {
+            top.layer.open({
+                type: 2,
+                title: "数据导入",
+                shadeClose: false,
+                shade: [0.2, '#393D49'],
+                maxmin: true,
+                area: ["900px", "610px"],
+                content: baseUrl + "/importSetting"
+            });
+        });
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+BODY
+{
+	padding: 0px;
+	margin: 0px;
+	font: 12px "sans-serif" , "Arial" , "Verdana";
+	color: #192e32;
+	scrollbar-highlight-color: #c6edf8;
+	scrollbar-shadow-color: #80a6cb;
+	scrollbar-3dlight-color: #ffffff;
+	scrollbar-arrow-color: #506eb3;
+	scrollbar-track-color: #f9f9f7;
+	scrollbar-darkshadow-color: #ffffff;
+	scrollbar-base-color: #d2ebff;
+}
+P {
+	FONT: 12px "sans-serif", "Arial", "Verdana"
+}
+TD {
+	FONT: 12px "sans-serif", "Arial", "Verdana";
+	}
+DIV {
+	FONT: 12px "sans-serif", "Arial", "Verdana"
+}
+TH {
+	FONT: bold 12px "sans-serif", "Arial", "Verdana"
+}
+FORM {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+INPUT {
+	FONT: 12px "courier new";
+	}
+TEXTAREA{
+	FONT: 12px "courier new";
+	border: 1px solid #BBBBBB;
+	background-color: #fdfefe;
+}
+SELECT
+{
+	border: 0px none #FFFFFF;
+	font: 12px "courier new";
+}
+A 
+{
+	cursor:default;
+}
+A:visited {
+	COLOR: #0b48a6; TEXT-DECORATION: none
+}
+A:link {
+	COLOR: #0b48a6; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #528fed; TEXT-DECORATION: underline
+}
+A:active {
+	COLOR: #528fed; TEXT-DECORATION: underline
+}
+.clear {
+	CLEAR: both; PADDING-RIGHT: 0px; DISPLAY: block; PADDING-LEFT: 0px; FONT-SIZE: 0px; FLOAT: none; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+.textarea {
+ filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, EndColorStr='#ecf4fa', StartColorStr='#ffffff')
+;
+	border: 1px solid #8bb5e0;
+	background-color: #fdfefe;
+}
+.pjtd{
+	border: 1px solid #C5EBFE;
+}
+.pttable01 {
+	font-family: "ËÎÌו";
+	font-size: 12px;
+	color: #666666;
+	border: 1px solid #8fbddd;
+	background-color: #d2e9fb;
+}

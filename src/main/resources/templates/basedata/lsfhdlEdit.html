@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{editlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>地区概况编辑</title>
+</head>
+<body>
+<div class="main-container-inner" layout:fragment="edit-content">
+    <form id="eidtForm">
+        <div class="widget-body">
+            <div class="widget-main">
+                <div class="tab-content">
+                    <table>
+                        <tr>
+                            <th class="th"> 年份:</th>
+                            <td class="td">
+                                <input type="text" name="year" th:value=${entity.year} style=" width:180px;"/>
+                            </td>
+                            <th class="th">
+                                区域：
+                            </th>
+                            <td class="td">
+                                <select name="qyid" class="chzn-select ddlGqlx" style="width: 180px">
+                                    <option th:each="qyMap:${qyMaps}" th:value="${qyMap.key}"
+                                            th:text="${qyMap.value}"
+                                            th:selected="${qyMap.key==entity.qyid}"></option>
+                                </select>
+                            </td>
+                            <th class="th">
+                                供区类型：
+                            </th>
+                            <td class="td">
+                                <select name="gqlx" class="chzn-select ddlGqlx" style="width: 180px">
+                                    <option th:each="gqlx:${gqlxs}" th:value="${gqlx.id}"
+                                            th:text="${gqlx.name}"
+                                            th:selected="${gqlx.id==entity.gqlx}"></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="th">
+                                网供最大电荷：
+                            </th>
+                            <td class="td">
+                                <input type="text" name="maximumload" th:value=${entity.maximumload} style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                            </td>
+                            <th class="th">
+                                网供最大电荷发生时刻：
+                            </th>
+                            <td class="td">
+                                <input type="text" name="maximumloadtime" th:value=${entity.maximumloadtime}
+                                       style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                       onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                            </td>
+                            <th class="th">
+                                全社会用电量(亿KW*h)：
+                            </th>
+                            <td class="td">
+                                <input type="text" name="allsocietyydl" th:value=${entity.allsocietyydl}
+                                       style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                       onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="th">
+                                第一产业用电量(亿KW*h)：
+                            </th>
+                            <td class="td">
+                                <input type="text" name="firstindustryydl" th:value=${entity.firstindustryydl}
+                                       style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                       onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                            </td>
+                            <th class="th">
+                                第二产业用电量(亿KW*h)：
+                            </th>
+                            <td class="td">
+                                <input type="text" name="secondindustryydl" th:value=${entity.secondindustryydl}
+                                       style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                       onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                            </td>
+                            <th class="th">
+                                第三产业用电量(亿KW*h)：
+                            </th>
+                            <td class="td">
+                                <input type="text" name="thirdindustryydl" th:value=${entity.thirdindustryydl}
+                                       style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                       onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="th"> 居民用电量(亿KW*h):</th>
+                            <td class="td">
+                                <input type="text" name="residentydl" th:value=${entity.residentydl} style=" width:180px;"/>
+                            </td>
+                            <th class="th">
+                                农业用电量(亿KW*h)：
+                            </th>
+                            <td class="td">
+                                <input type="text" name="farmingydl" th:value=${entity.farmingydl}
+                                       style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                       onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                            </td>
+                            <th class="th">
+                                林业用电量(亿KW*h)：
+                            </th>
+                            <td class="td">
+                                <input type="text" name="forestryydl" th:value=${entity.forestryydl}
+                                       style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                       onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="th">
+                                牧业用电量(亿KW*h)：
+                            </th>
+                            <td class="td">
+                                <input type="text" name="stockraisingydl" th:value=${entity.stockraisingydl}
+                                       style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                       onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                            </td>
+                            <th class="th">
+                                副业用电量(亿KW*h)：
+                            </th>
+                            <td class="td">
+                                <input type="text" name="avocationydl" th:value=${entity.avocationydl}
+                                       style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                       onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                            </td>
+                            <th class="th">
+                                信息业用电量(亿KW*h)：
+                            </th>
+                            <td class="td">
+                                <input type="text" name="fisheryydl" th:value=${entity.fisheryydl}
+                                       style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                       onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="th">
+                                工业用电量(亿KW*h)：
+                            </th>
+                            <td class="td">
+                                <input type="text" name="industryydl" th:value=${entity.industryydl}
+                                       style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                       onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                            </td>
+                            <th class="th">
+                                商业用电量(亿KW*h)：
+                            </th>
+                            <td class="td">
+                                <input type="text" name="businessydl" th:value=${entity.businessydl}
+                                       style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                       onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                            </td>
+                            <th class="th">
+                                网供电量(亿KW*h)：
+                            </th>
+                            <td class="td">
+                                <input type="text" name="netsPowerSupply" th:value=${entity.netsPowerSupply}
+                                       style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                       onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="th">
+                                公共事业(亿KW*h)：
+                            </th>
+                            <td class="td">
+                                <input type="text" name="monthmaximumload" th:value=${entity.monthmaximumload}
+                                       style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                       onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                            </td>
+                            <th class="th">
+                                供电负荷(亿KW*h)：
+                            </th>
+                            <td class="td" colspan="3">
+                                <input type="text" name="supplload" th:value=${entity.supplload}
+                                       style=" width:180px;" onkeyup="if(isNaN(value))execCommand('undo')"
+                                       onafterpaste="if(isNaN(value))execCommand('undo')"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div style="display: inline-block ; margin: 10px auto;">
+            <input id="hidId" name="id" th:value=${entity.id} type="hidden"/>
+            <button id="btnSave" type="button" class="btn btn-info"><i class="icon-save bigger-110"></i>保存</button>
+            &nbsp; &nbsp; &nbsp;
+            <button id="btnCancel" type="button" class="btn"><i class="icon-undo bigger-110"></i>取消</button>
+        </div>
+    </form>
+    <script type="text/javascript">
+        $(function () {
+            $("input").on("onkeyup", function () {
+                if (isNaN(this.value)) {
+                    execCommand('undo');
+                }
+            }).on("onafterpaste", function () {
+                if (isNaN(this.value))
+                    execCommand('undo');
+            });
+
+            $("#btnCancel").click(function () {
+                top.layer.closeAll();
+            })
+
+            $("#btnSave").click(function () {
+                $.ajax({
+                    type: "Post",
+                    url: "/basedata/lsfhdl/save",
+                    data: $("#eidtForm").serialize(),
+                    success: function (data) {
+                        if (data.sucess) {
+                            top.layer.alert('保存成功！',
+                                {
+                                    closeBtn: 0
+                                },
+                                function () {
+                                    top.layer.closeAll();
+                                });
+                        } else {
+                            top.layer.alert('保存失败！');
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        top.layer.alert("保存出错！");
+                    }
+                });
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

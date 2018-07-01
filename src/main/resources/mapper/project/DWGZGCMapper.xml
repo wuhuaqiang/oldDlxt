@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kylin.electricassistsys.mapper.project.DWGZGCMapper">
+    <select id="getEntitiesByCondition" parameterType="com.kylin.electricassistsys.entity.project.DwGzGcEntity"  resultType="com.kylin.electricassistsys.entity.project.DwGzGcEntity">
+        SELECT Xmqc.*,D1.name AS qyname,D2.name AS ywdwName FROM Xmqc
+        LEFT JOIN PowerSupplyZone D1 ON LOWER(Xmqc.qyId) = LOWER(D1.id)
+        LEFT JOIN Unit D2 ON LOWER(Xmqc.ywdwId) = LOWER(D2.id) WHERE Xmqc.type=2
+        <if test="xmmc!= null and xmmc != '' ">
+            AND Xmqc.xmmc LIKE CONCAT(CONCAT('%', #{xmmc}), '%')
+        </if>
+        <if test="gqlx!= null and gqlx != '' ">
+            AND Xmqc.gqlx =#{gqlx}
+        </if>
+        <if test="voltage!= null and voltage != '' ">
+            AND Xmqc.voltage =#{voltage}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{editlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="main-container-inner" layout:fragment="edit-content">
+    <form id="editForm">
+        <div class="widget-body">
+            <div class="widget-main">
+                <div style="text-align: left; padding-left: 12px" >
+                    <span class="icon-warning-sign red" id="errorMsg" style="display:none"></span>
+                </div>
+                <table border="1" width="100%">
+                    <tr>
+                        <td class="th">
+                            菜单名称：
+                        </td>
+                        <td class="td">
+                            <input type="text" name="name" th:value=${menu.name} maxlength="20"/>
+                            <span style="color: red;">*</span><span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                        </td>
+                        <td class="th">
+                            图标：
+                        </td>
+                        <td class="td">
+                            <input type="text" name="iconName" th:value=${menu.iconName} maxlength="100"/>
+                            <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th">
+                            <p>菜单URL：</p>
+                        </td>
+                        <td class="td" colspan="3">
+                            <input type="text" name="url" th:value=${menu.url} maxlength="200" style="width: 450px;"/>
+                            <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th">
+                            <p>上级菜单：</p>
+                        </td>
+                        <td class="td">
+                            <select id="sltPreMenu" name="preId" class="list-div chzn-select"
+                            style="width:200px">
+                                <option th:each="m:${hierarchicalEntityList}" th:value="${m.id}" th:selected="${m.id==menu.preId}"
+                                        th:text="${m.name}"></option>
+                            </select>
+                            <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                        </td>
+                        <td class="th">
+                            <p>状态：</p>
+                        </td>
+                        <td class="td">
+                            <select id="sltValid" name="status" class="list-div chzn-select" style="width:200px">
+                                <option th:selected="${menu.status=='有效'}" value="有效">有效</option>
+                                <option th:selected="${menu.status=='无效'}" value="无效">无效</option>
+                            </select>
+                            <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th">
+                            <p>排序号：</p>
+                        </td>
+                        <td class="td">
+                            <input type="text" name="rank" th:value=${menu.rank} id="txtIndex" min="1"
+                                   max="10000" required="true"
+                                   maxlength="10" class="easyui-numberspinner"/>
+
+                            <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                        </td>
+                        <td class="th">
+                            菜单类型：
+                        </td>
+                        <td class="td">
+                            <select id="sltMenuType" name="type" class="list-div chzn-select" style="width:200px">
+                                <option th:selected="${menu.type=='主菜单'}" value="主菜单">主菜单</option>
+                                <option th:selected="${menu.type=='子菜单'}" value="子菜单">子菜单</option>
+                                <option th:selected="${menu.type=='内部菜单'}" value="内部菜单">内部菜单</option>
+                                <option th:selected="${menu.type=='其他'}" value="其他">其他</option>
+                            </select>
+                            <span data-toggle="tooltip" data-placement="bottom" title="" limit="6"  class="errorMsgSpan tooltip-show"  style="color: red;text-decoration:none;"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div style="display: inline-block ; margin: 10px auto;">
+            <input id="hidId" name="id" th:value="${menu.id}" type="hidden"/>
+            <button id="btnSave" type="button" class="btn btn-primary btn-sm"><i class="icon-save bigger-110"></i>保存</button>
+            &nbsp; &nbsp; &nbsp;
+            <button id="btnCancel" type="button" class="btn  btn-sm"><i class="icon-undo bigger-110"></i>取消</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
